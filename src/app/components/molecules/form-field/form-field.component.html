@@ -1,0 +1,10 @@
+<div class="form-field">
+  <app-label [for]="fieldId" [labelText]="labelText"></app-label>
+  <app-input-field
+    [id]="fieldId"
+    [name]="fieldName"
+    [value]="inputValue"
+    (valueChange)="onInputChange($event)"
+    (blur)="onBlur()"
+  ></app-input-field>
+</div>

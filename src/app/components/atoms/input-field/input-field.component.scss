@@ -1,0 +1,21 @@
+@import 'src/variables.scss';
+
+.input-field {
+
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid $spacer_light;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    color: $black;
+
+    &:focus {
+      border: 1px solid $purple;
+      outline: none;
+    }
+    &--disabled {
+      background-color: #FFFFFF;
+    }
+  }
+  

@@ -1,0 +1,10 @@
+@import 'src/variables.scss';
+.form-field {
+  margin-bottom: 15px;
+
+  &__error-message {
+    color: $error;
+    font-size: 12px;
+    display: none;
+  }
+}

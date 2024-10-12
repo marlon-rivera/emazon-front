@@ -1,0 +1,29 @@
+<header class="header">
+  <div class="header__container">
+    <div class="header__logo">
+      <app-logo [width]="sizeWidthtLogo" [height]="sizeHeightLogo"></app-logo>
+    </div>
+    <div *ngIf="(isLogged && !isMobile)" class="header__search">
+      <app-input-field
+        type="text"
+        id="searchProduct"
+        name="searchProduct"
+        [value]="productSearched"
+        [size]="50"
+      ></app-input-field>
+    </div>
+    <div class="header__login">
+      <a class="header__login__login" routerLink="/login">
+        <img
+          *ngIf="!isMobile"
+          src="assets/icon_person.png"
+          alt="User Icon"
+          class="header__login__icon"
+        />
+        Ingresar
+      </a>
+      /
+      <a class="header__login__signup"> Registrarse </a>
+    </div>
+  </div>
+</header>

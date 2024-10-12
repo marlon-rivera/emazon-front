@@ -1,0 +1,40 @@
+@import "src/variables.scss";
+
+.header {
+  color: $black;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    
+  }
+
+  &__search {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__login {
+    display: flex;
+    align-items: center;
+    &__login {
+      color: $black;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    &__signup{
+        color: $purple;
+        cursor: pointer;
+    }
+  }
+}

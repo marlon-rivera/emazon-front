@@ -1,0 +1,47 @@
+@import 'src/variables.scss';
+
+.categories-panel {
+  width: 90vw;
+  margin: 50px 0;
+  display: flex;
+  justify-content: space-around;
+
+  @media (max-width: $phone) {
+    gap: 50px;
+    flex-direction: column-reverse;
+  }
+
+  &__table {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 350px;
+
+    @media (max-width: $phone) {
+      width: 100%;
+    }
+
+    &-content {
+      height: 80%;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 10px;
+
+    &-number {
+      margin: 0 10px;
+      text-decoration: none;
+      color: $purple;
+      cursor: pointer;
+
+      &--active {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+  }
+}

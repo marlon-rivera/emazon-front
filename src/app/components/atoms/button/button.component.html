@@ -1,0 +1,8 @@
+<button
+  type="submit"
+  [ngClass]="{ button: !disabledButton, 'button--disabled': disabledButton }"
+  [disabled]="disabledButton"
+  (click)="handleClick($event)"
+>
+  {{ buttonText }}
+</button>

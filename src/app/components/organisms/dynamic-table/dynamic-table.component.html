@@ -1,0 +1,29 @@
+<div class="table">
+  <table class="table__element">
+    <thead class="table__header">
+      <tr>
+        <th *ngFor="let header of headers" class="table__header-cell">
+          <button 
+            *ngIf="header.sortable"
+            class="table__button"
+            (click)="toggleSort(header.name)"
+          >
+            {{ header.name }}
+            <span class="table__icon">
+              <ng-container *ngIf="currentSortOrder[header.name] === 'ASC'">&#9650;</ng-container>
+              <ng-container *ngIf="currentSortOrder[header.name] === 'DESC'">&#9660;</ng-container>
+            </span>
+          </button>
+          <span *ngIf="!header.sortable">{{ header.name }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="table__body">
+      <tr *ngFor="let row of rows" class="table__row">
+        <td *ngFor="let cell of row" class="table__cell">
+          {{ cell }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

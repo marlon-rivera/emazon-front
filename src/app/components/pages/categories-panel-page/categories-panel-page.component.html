@@ -1,0 +1,55 @@
+<div class="categories-panel">
+  <div class="categories-panel__form">
+    <app-create-category></app-create-category>
+  </div>
+  <div class="categories-panel__table">
+    <div class="categories-panel__table-content">
+      <app-dynamic-table
+        [headers]="headers"
+        [rows]="rows"
+        [currentSortOrder]="currentSortOrder"
+        (sortChange)="toggleSort($event)"
+      ></app-dynamic-table>
+    </div>
+    <div
+      class="categories-panel__pagination"
+      *ngIf="paginationInfo.totalPages > 0"
+    >
+      <a
+        href="javascript:void(0)"
+        (click)="changePage(currentPage - 1)"
+        [class.disabled]="currentPage === 0"
+        class="highlight"
+        aria-label="Página anterior"
+      >
+        &lt;
+      </a>
+
+      <span *ngFor="let page of getVisiblePages(); let i = index">
+        <a
+          href="javascript:void(0)"
+          (click)="changePage(page)"
+          [class.categories-panel__pagination-number--active]="
+            currentPage === page
+          "
+          class="categories-panel__pagination-number"
+        >
+          <ng-container *ngIf="page !== -1; else ellipsis">{{
+            page + 1
+          }}</ng-container>
+          <ng-template #ellipsis>...</ng-template>
+        </a>
+      </span>
+
+      <a
+        href="javascript:void(0)"
+        (click)="changePage(currentPage + 1)"
+        [class.disabled]="currentPage === paginationInfo.totalPages - 1"
+        class="highlight"
+        aria-label="Siguiente página"
+      >
+        &gt;
+      </a>
+    </div>
+  </div>
+</div>

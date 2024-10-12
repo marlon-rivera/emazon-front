@@ -1,0 +1,72 @@
+<form
+  *ngIf="categoryForm"
+  [formGroup]="categoryForm"
+  class="categoryForm"
+  (ngSubmit)="onSubmit()"
+>
+  <h2>Crear una <span class="highlight">categoría</span></h2>
+  <div class="form-group">
+    <app-form-field
+      fieldId="name"
+      fieldName="name"
+      labelText="Nombre *"
+      [inputValue]="categoryForm.get('name')?.value"
+      (inputValueChange)="categoryForm.get('name')?.setValue($event)"
+      (touchedChange)="categoryForm.get('name')?.markAsTouched()"
+    ></app-form-field>
+
+    <div
+      class="error-message"
+      [ngClass]="{
+        visible:
+          categoryForm.get('name')?.touched && categoryForm.get('name')?.invalid
+      }"
+    >
+      <small *ngIf="categoryForm.get('name')?.errors?.['required']">
+        El nombre es obligatorio.
+      </small>
+      <small *ngIf="categoryForm.get('name')?.errors?.['maxlength']">
+        El nombre no debe exceder 50 caracteres.
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <app-form-field
+      fieldId="description"
+      fieldName="description"
+      labelText="Descripción *"
+      [inputValue]="categoryForm.get('description')?.value"
+      (inputValueChange)="categoryForm.get('description')?.setValue($event)"
+      (touchedChange)="categoryForm.get('description')?.markAsTouched()"
+    ></app-form-field>
+
+    <div
+      class="error-message"
+      [ngClass]="{
+        visible:
+          categoryForm.get('description')?.touched &&
+          categoryForm.get('description')?.invalid
+      }"
+    >
+      <small *ngIf="categoryForm.get('description')?.errors?.['required']">
+        La descripción es obligatoria.
+      </small>
+      <small *ngIf="categoryForm.get('description')?.errors?.['maxlength']">
+        La descripción no debe exceder 90 caracteres.
+      </small>
+    </div>
+  </div>
+
+  <app-button
+    buttonText="Crear Categoría"
+    [disabledButton]="categoryForm.invalid"
+    (buttonClick)="onSubmit()"
+  ></app-button>
+</form>
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

@@ -1,0 +1,64 @@
+@import 'src/variables.scss';
+
+.table {
+  max-height: 300px;
+  overflow-y: auto;
+
+  &__element {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__header {
+    border-top: 2px solid $spacer_light;
+    border-bottom: 2px solid $spacer_light;
+  }
+
+  &__header-cell {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border: none;
+  }
+
+  &__body {
+    background-color: #fff;
+  }
+
+  &__row {
+    &:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    &:nth-child(odd) {
+      background-color: #fff;
+    }
+
+    &:hover {
+      background-color: #eaeaea;
+    }
+  }
+
+  &__cell {
+    padding: 10px;
+    border: none;
+  }
+
+  &__button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: bold;
+    cursor: pointer;
+    color: inherit;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__icon {
+    margin-left: 5px;
+    color: $purple;
+  }
+}
