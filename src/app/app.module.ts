@@ -23,6 +23,8 @@ import { ControlPanelPageComponent } from './components/pages/control-panel-page
 import { DynamicTableComponent } from './components/organisms/dynamic-table/dynamic-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationComponent } from './components/atoms/notification/notification.component';
+import { BrandsPanelPageComponent } from './components/pages/brands-panel-page/brands-panel-page.component';
+import { CreateBrandComponent } from './components/organisms/create-brand/create-brand.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { NotificationComponent } from './components/atoms/notification/notificat
     ControlPanelPageComponent,
     DynamicTableComponent,
     NotificationComponent,
+    BrandsPanelPageComponent,
+    CreateBrandComponent,
   ],
   imports: [BrowserModule, CommonModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [

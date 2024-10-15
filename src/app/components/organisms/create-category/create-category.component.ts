@@ -75,7 +75,6 @@ export class CreateCategoryComponent implements OnInit {
   private autoHideNotification() {
     setTimeout(() => {
       this.showNotification = false;
-      console.log("Entre")
     }, 3000);
   }
 }

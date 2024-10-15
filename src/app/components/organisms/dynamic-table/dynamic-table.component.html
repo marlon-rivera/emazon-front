@@ -1,9 +1,9 @@
-<div class="table">
+<div class="table__container">
   <table class="table__element">
     <thead class="table__header">
       <tr>
         <th *ngFor="let header of headers" class="table__header-cell">
-          <button 
+          <button
             *ngIf="header.sortable"
             class="table__button"
             (click)="toggleSort(header.name)"
@@ -26,4 +26,41 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div class="table__pagination" *ngIf="paginationInfo.totalPages > 1">
+  <a
+    href="javascript:void(0)"
+    (click)="changePage(currentPage - 1)"
+    [class.table__pagination-arrow--disabled]="currentPage === 0"
+    class="table__pagination-arrow"
+  >
+    &lt;
+  </a>
+
+  <span *ngFor="let page of getVisiblePages(); let i = index">
+    <ng-container *ngIf="page === -1">
+      <!-- Mostrar los puntos suspensivos cuando page es -1 -->
+      <ng-template #ellipsis>...</ng-template>
+      <ng-container *ngTemplateOutlet="ellipsis"></ng-container>
+    </ng-container>
+
+    <a
+      *ngIf="page !== -1"
+      href="javascript:void(0)"
+      (click)="changePage(page)"
+      [class.table__pagination-number--active]="currentPage === page"
+      class="table__pagination-number"
+    >
+      {{ page + 1 }}
+    </a>
+  </span>
+
+  <a
+    href="javascript:void(0)"
+    (click)="changePage(currentPage + 1)"
+    [class.table__pagination-arrow--disabled]="currentPage === paginationInfo.totalPages - 1"
+    class="table__pagination-arrow"
+  >
+    &gt;
+  </a>
 </div>

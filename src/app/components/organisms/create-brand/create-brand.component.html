@@ -1,0 +1,72 @@
+<form
+  *ngIf="brandForm"
+  [formGroup]="brandForm"
+  class="brandForm"
+  (ngSubmit)="onSubmit()"
+>
+  <h2>Crear una <span class="highlight">Marca</span></h2>
+  <div class="form-group">
+    <app-form-field
+      fieldId="name"
+      fieldName="name"
+      labelText="Nombre *"
+      [inputValue]="brandForm.get('name')?.value"
+      (inputValueChange)="brandForm.get('name')?.setValue($event)"
+      (touchedChange)="brandForm.get('name')?.markAsTouched()"
+    ></app-form-field>
+
+    <div
+      class="error-message"
+      [ngClass]="{
+        visible:
+          brandForm.get('name')?.touched && brandForm.get('name')?.invalid
+      }"
+    >
+      <small *ngIf="brandForm.get('name')?.errors?.['required']">
+        El nombre es obligatorio.
+      </small>
+      <small *ngIf="brandForm.get('name')?.errors?.['maxlength']">
+        El nombre no debe exceder 50 caracteres.
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <app-form-field
+      fieldId="description"
+      fieldName="description"
+      labelText="Descripción *"
+      [inputValue]="brandForm.get('description')?.value"
+      (inputValueChange)="brandForm.get('description')?.setValue($event)"
+      (touchedChange)="brandForm.get('description')?.markAsTouched()"
+    ></app-form-field>
+
+    <div
+      class="error-message"
+      [ngClass]="{
+        visible:
+          brandForm.get('description')?.touched &&
+          brandForm.get('description')?.invalid
+      }"
+    >
+      <small *ngIf="brandForm.get('description')?.errors?.['required']">
+        La descripción es obligatoria.
+      </small>
+      <small *ngIf="brandForm.get('description')?.errors?.['maxlength']">
+        La descripción no debe exceder 120 caracteres.
+      </small>
+    </div>
+  </div>
+
+  <app-button
+    buttonText="Crear Marca"
+    [disabledButton]="brandForm.invalid"
+    (buttonClick)="onSubmit()"
+  ></app-button>
+</form>
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

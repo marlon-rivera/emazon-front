@@ -14,4 +14,8 @@ export class ControlPanelPageComponent{
     this.router.navigate(['/control-panel/categories'])
   }
 
+  handleClickBrands(): void{
+    this.router.navigate(['/control-panel/brands'])
+  }
+
 }

@@ -1,8 +1,10 @@
 @import 'src/variables.scss';
 
 .table {
-  max-height: 300px;
-  overflow-y: auto;
+  &__container {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 
   &__element {
     width: 100%;
@@ -60,5 +62,35 @@
   &__icon {
     margin-left: 5px;
     color: $purple;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 10px;
+
+    &-number {
+      margin: 0 10px;
+      text-decoration: none;
+      color: $purple;
+      cursor: pointer;
+
+      &--active {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
+    &-arrow {
+      color: $purple;
+      cursor: pointer;
+      margin: 0 10px;
+
+      &--disabled {
+        color: $spacer_light;
+        pointer-events: none;
+      }
+    }
   }
 }

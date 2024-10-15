@@ -17,7 +17,6 @@ export class FormFieldComponent {
 
 
   onInputChange(newValue: string) {
-    console.log(newValue)
     this.inputValue = newValue;
     this.inputValueChange.emit(this.inputValue);
   }

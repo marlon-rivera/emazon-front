@@ -4,12 +4,14 @@ import { LoginComponent } from './components/organisms/login/login.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 import { ControlPanelPageComponent } from './components/pages/control-panel-page/control-panel-page.component';
 import { CategoriesPanelPageComponent } from './components/pages/categories-panel-page/categories-panel-page.component';
+import { BrandsPanelPageComponent } from './components/pages/brands-panel-page/brands-panel-page.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component : LoginComponent},
   {path: 'control-panel', component: ControlPanelPageComponent},
-  {path: 'control-panel/categories', component: CategoriesPanelPageComponent}
+  {path: 'control-panel/categories', component: CategoriesPanelPageComponent},
+  {path: 'control-panel/brands', component: BrandsPanelPageComponent}
 ];
 
 @NgModule({

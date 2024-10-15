@@ -1,0 +1,24 @@
+@import "src/variables.scss";
+.brandForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-group{
+    margin-left: 20px;
+}
+.error-message {
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: $error;
+  margin-bottom: 20px;
+  &.visible {
+    opacity: 1;
+  }
+  @media (max-width: $phone) {
+    margin-bottom: 40px;
+  }
+}
+
