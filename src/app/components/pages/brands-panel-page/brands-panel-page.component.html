@@ -2,4 +2,20 @@
     <div class="brands-panel__form">
         <app-create-brand></app-create-brand>
     </div>
+    <div class="brands-panel__table">
+        <div class="brands-panel__table-content">
+            <app-dynamic-table
+            [headers]="headers"
+            [rows] = "rows"
+            [currentSortOrder]="currentSortOrder"
+            [currentPage]="currentPage"
+            [totalPages]="paginationInfo.totalPages"
+            [maxVisiblePages]="maxVisiblePages"
+            [paginationInfo]="paginationInfo"
+            (sortChange)="onSortChange($event)"
+            (pageChange)="onPageChange($event)"
+            >
+            </app-dynamic-table>
+        </div>
+    </div>
 </div>

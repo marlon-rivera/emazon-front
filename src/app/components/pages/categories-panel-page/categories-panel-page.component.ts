@@ -8,6 +8,8 @@ import {
   ASC_ORDER,
   DESC_ORDER,
   DESCRIPTION_CATEGORY,
+  INITIAL_PAGE,
+  MAX_VISIBLE_PAGES,
   NAME_CATEGORY,
   SIZE_PAGE,
 } from "src/core/constants/api.constants";
@@ -23,8 +25,8 @@ export class CategoriesPanelPageComponent {
   ];
   rows!: any[];
   paginationInfo!: PaginationInfo<Category>;
-  currentPage = 0;
-  maxVisiblePages = 5;
+  currentPage = INITIAL_PAGE;
+  maxVisiblePages = MAX_VISIBLE_PAGES;
   currentSortOrder: { [key: string]: string } = { [NAME_CATEGORY]: ASC_ORDER };
 
   constructor(readonly categoryService: CategoryService) {}

@@ -4,7 +4,7 @@ import { CategoryService } from "src/core/services/category.service";
 import { of } from "rxjs";
 import { PaginationInfoResponse } from "src/core/interfaces/pagination-info.interface";
 import { Category } from "src/core/interfaces/category.interface";
-import { SIZE_PAGE, ASC_ORDER, DESC_ORDER } from "src/core/constants/api.constants";
+import { SIZE_PAGE, ASC_ORDER, DESC_ORDER, NAME_CATEGORY, NAME_BRAND } from "src/core/constants/api.constants";
 
 describe("CategoriesPanelPageComponent", () => {
   let component: CategoriesPanelPageComponent;
@@ -120,9 +120,38 @@ describe("CategoriesPanelPageComponent", () => {
     };
 
     categoryService.getCategories.mockReturnValue(of(mockResponse));
-    component.onSortChange("name");
+    component.onSortChange("Nombre");
 
-    expect(component.currentSortOrder["name"]).toBe(ASC_ORDER);
+    expect(component.currentSortOrder["Nombre"]).toBe(DESC_ORDER);
+    expect(categoryService.getCategories).toHaveBeenCalledWith(
+      component.currentPage,
+      SIZE_PAGE,
+      DESC_ORDER
+    );
+  });
+
+  it("should change the sort order and fetch categories DESC to ASC", () => {
+    console.log(component.currentSortOrder)
+    component.currentSortOrder[NAME_CATEGORY] = DESC_ORDER;
+    const mockResponse: PaginationInfoResponse<Category> = {
+      paginationInfo: {
+        currentPage: 0,
+        pageSize: 2,
+        totalElements: 4,
+        totalPages: 2,
+        hasNextPage: true,
+        hasPreviousPage: false,
+        list: [
+          { id: 1, name: "Category 1", description: "Description 1" },
+          { id: 2, name: "Category 2", description: "Description 2" },
+        ],
+      },
+    };
+
+    categoryService.getCategories.mockReturnValue(of(mockResponse));
+    component.onSortChange(NAME_BRAND);
+    console.log(component.currentSortOrder)
+    expect(component.currentSortOrder[NAME_BRAND]).toBe(ASC_ORDER);
     expect(categoryService.getCategories).toHaveBeenCalledWith(
       component.currentPage,
       SIZE_PAGE,

@@ -22,3 +22,6 @@ export const SIZE_PAGE: number = 10 ;
 export const INITIAL_PAGE: number = 0 ;
 export const NAME_CATEGORY: string = "Nombre";
 export const DESCRIPTION_CATEGORY: string = "Descripción";
+export const NAME_BRAND: string = "Nombre";
+export const DESCRIPTION_BRAND: string = "Descripción";
+export const MAX_VISIBLE_PAGES: number = 5;
