@@ -1,0 +1,15 @@
+<section class="control_panel" *ngIf="!shouldHideButtons()">
+  <app-button
+    buttonText="Categorías"
+    (buttonClick)="handleClickCategories()"
+  ></app-button>
+  <app-button
+    buttonText="Marcas"
+    (buttonClick)="handleClickBrands()"
+  ></app-button>
+  <app-button
+    buttonText="Artículos"
+    (buttonClick)="handleClickArticles()"
+  ></app-button>
+</section>
+<router-outlet></router-outlet>

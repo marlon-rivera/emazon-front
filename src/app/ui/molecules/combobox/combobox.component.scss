@@ -1,0 +1,100 @@
+@import "src/variables.scss";
+.combobox {
+  &__input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid $spacer_light;
+    border-radius: 2px;
+    box-sizing: border-box;
+  }
+
+  &__arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    pointer-events: none;
+  }
+
+  &__options {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid $spacer_light;
+    border-radius: 2px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &__option {
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+
+    &--disabled {
+      color: #aaa;
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      background-color: $purple;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.selected-items {
+  margin-top: 20px;
+
+  h4 {
+    margin-bottom: 10px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .selected-item {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .remove-btn {
+    background-color: $error;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: $error;
+    }
+  }
+
+  .warning {
+    color: $error;
+    margin-top: 10px;
+  }
+}

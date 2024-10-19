@@ -1,0 +1,24 @@
+<div class="combobox">
+  <div class="combobox__input-wrapper">
+    <input
+      type="text"
+      class="combobox__input"
+      [formControl]="searchControl"
+      placeholder="Buscar..."
+    />
+    <span class="combobox__arrow">&#9662;</span>
+  </div>
+
+  <ul
+    class="combobox__options"
+    *ngIf="searchControl.value && filteredOptions.length > 0"
+  >
+    <li
+      *ngFor="let option of filteredOptions"
+      class="combobox__option"
+      (click)="selectOption(option)"
+    >
+      {{ option.name }}
+    </li>
+  </ul>
+</div>

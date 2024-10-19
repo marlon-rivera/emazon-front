@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/organisms/login/login.component';
-import { HomePageComponent } from './components/pages/home-page/home-page.component';
-import { ControlPanelPageComponent } from './components/pages/control-panel-page/control-panel-page.component';
-import { CategoriesPanelPageComponent } from './components/pages/categories-panel-page/categories-panel-page.component';
-import { BrandsPanelPageComponent } from './components/pages/brands-panel-page/brands-panel-page.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { LayoutComponent } from "./ui/templates/layout/layout.component";
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent},
-  {path: 'login', component : LoginComponent},
-  {path: 'control-panel', component: ControlPanelPageComponent},
-  {path: 'control-panel/categories', component: CategoriesPanelPageComponent},
-  {path: 'control-panel/brands', component: BrandsPanelPageComponent}
+  {
+    path: "",
+    component: LayoutComponent,
+    children: [
+      {
+        path: "",
+        loadChildren: () =>
+          import("src/app/pages/pages.module").then((m) => m.PagesModule),
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
