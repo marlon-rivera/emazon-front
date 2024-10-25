@@ -1,0 +1,124 @@
+<div class="list-articles-page">
+  <div class="list-articles-page__order">
+    <div class="list-articles-page__order--option">
+      <div></div>
+      <app-label labelText="Criterio"></app-label>
+      <app-combobox
+        [options]="[
+          { id: 1, name: 'Nombre articulo' },
+          { id: 1, name: 'Nombre marca' }
+        ]"
+        [searchControl]="this.criteriaControl"
+        (controlChange)="onChangeCriteria($event)"
+        [readOnly]="true"
+      ></app-combobox>
+    </div>
+    <div class="list-articles-page__order--option">
+      <app-label labelText="Orden"></app-label>
+      <app-combobox
+        [options]="[
+          { id: 1, name: 'ASC' },
+          { id: 1, name: 'DESC' }
+        ]"
+        [searchControl]="this.orderControl"
+        (controlChange)="onChangeOrder($event)"
+        [readOnly]="true"
+      ></app-combobox>
+    </div>
+    <div>
+      <app-button (buttonClick)="getArticles()" buttonText="Buscar"></app-button>
+    </div>
+  </div>
+  <div class="list-articles-page__content">
+    <app-button
+      buttonText="Filtrar pot categorias"
+      (buttonClick)="toggleCategories()"
+      *ngIf="isMobile"
+    >
+    </app-button>
+
+    <div>
+      <aside
+        class="list-articles-page__categories"
+        [ngClass]="{
+          'list-articles-page__categories--visible': this.isCategoriesVisible
+        }"
+      >
+        <h4 class="list-articles-page__categories-title">
+          Filtra por <span class="highlight">Categorías</span>
+        </h4>
+        <app-button
+          *ngIf="this.isCategoriesVisible"
+          (buttonClick)="toggleCategories()"
+          buttonText="Ocultar filtro"
+        ></app-button>
+        <div class="list-articles-page__checkbox-group">
+          <label
+            *ngFor="let category of categories"
+            class="list-articles-page__checkbox-label"
+          >
+            <input
+              type="checkbox"
+              class="list-articles-page__checkbox-input"
+              [value]="category.id"
+              (change)="onCategorySelected($event)"
+            />
+            {{ category.name }}
+          </label>
+        </div>
+      </aside>
+    </div>
+
+    <section>
+      <div class="list-articles-page__articles">
+        <app-article-card
+          *ngFor="let article of articles"
+          [article]="article"
+        ></app-article-card>
+      </div>
+      <div
+        class="list-articles-page__pagination"
+        *ngIf="this.paginationInfo.totalPages > 1"
+      >
+        <a
+          href="javascript:void(0)"
+          (click)="changePage(currentPage - 1)"
+          [class.table__pagination-arrow--disabled]="currentPage === 0"
+          class="list-articles-page__pagination-arrow"
+        >
+          &lt;
+        </a>
+
+        <span *ngFor="let page of getVisiblePages(); let i = index">
+          <ng-container *ngIf="page === -1">
+            <ng-template #ellipsis>...</ng-template>
+            <ng-container *ngTemplateOutlet="ellipsis"></ng-container>
+          </ng-container>
+
+          <a
+            *ngIf="page !== -1"
+            href="javascript:void(0)"
+            (click)="changePage(page)"
+            [class.list-articles-page__pagination-number--active]="
+              currentPage === page
+            "
+            class="list-articles-page__pagination-number"
+          >
+            {{ page + 1 }}
+          </a>
+        </span>
+
+        <a
+          href="javascript:void(0)"
+          (click)="changePage(currentPage + 1)"
+          [class.table__pagination-arrow--disabled]="
+            currentPage === paginationInfo.totalPages - 1
+          "
+          class="list-articles-page__pagination-arrow"
+        >
+          &gt;
+        </a>
+      </div>
+    </section>
+  </div>
+</div>

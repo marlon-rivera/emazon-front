@@ -10,23 +10,14 @@ export class ControlPanelPageComponent {
   constructor(readonly router: Router) {}
 
   handleClickCategories(): void {
-    this.router.navigate(["/control-panel/categories"]);
+    this.router.navigate(["/categories"]);
   }
 
   handleClickBrands(): void {
-    this.router.navigate(["/control-panel/brands"]);
+    this.router.navigate(["/brands"]);
   }
 
   handleClickArticles(): void {
-    this.router.navigate(["/control-panel/articles"]);
-  }
-
-  shouldHideButtons(): boolean {
-    const currentRoute = this.router.url;
-    return (
-      currentRoute.includes("/categories") ||
-      currentRoute.includes("/brands") ||
-      currentRoute.includes("/articles")
-    );
+    this.router.navigate(["/articles"]);
   }
 }

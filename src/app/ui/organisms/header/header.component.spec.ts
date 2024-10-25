@@ -105,7 +105,6 @@ describe('HeaderComponent', () => {
     it('should respond to window resize event', () => {
       const onResizeSpy = jest.spyOn(component, 'onResize');
       
-      // Trigger window resize event
       window.dispatchEvent(new Event('resize'));
       
       expect(onResizeSpy).toHaveBeenCalled();
@@ -125,7 +124,6 @@ describe('HeaderComponent', () => {
     });
   });
 
-  // Cleanup after tests
   afterEach(() => {
     jest.clearAllMocks();
   });

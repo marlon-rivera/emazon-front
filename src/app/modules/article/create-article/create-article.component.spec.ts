@@ -250,7 +250,7 @@ describe("CreateArticleComponent", () => {
   describe("Category Validator", () => {
     describe("Category Validator", () => {
       it("should return null when control is not a FormArray", () => {
-        const control = component.formBuilder.control(""); // Create a regular FormControl
+        const control = component.formBuilder.control("");
         const result = component.categoryValidator(control);
         expect(result).toBeNull();
       });

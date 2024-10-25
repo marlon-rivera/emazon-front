@@ -1,7 +1,7 @@
 import { Option } from "@/app/shared/interfaces/option.interface";
 import { EMPTY } from "@/app/shared/utils/api.constants";
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild } from "@angular/core";
-import { FormControl, Validators, AbstractControl } from "@angular/forms";
+import { FormControl, AbstractControl } from "@angular/forms";
 
 @Component({
   selector: "app-combobox",
@@ -13,6 +13,7 @@ export class ComboboxComponent implements OnInit {
   @Output() controlChange = new EventEmitter<Option | null>();
   @Output() blur = new EventEmitter<void>();
   @Input() searchControl!: FormControl;
+  @Input() readOnly: boolean = false;
   @ViewChild('comboboxDiv') comboboxDiv!: ElementRef;
 
   filteredOptions!: Option[];

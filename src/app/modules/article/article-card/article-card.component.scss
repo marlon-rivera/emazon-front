@@ -1,0 +1,66 @@
+@import "src/variables.scss";
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 5px $purple;
+  width: 200px;
+  height: 290px;
+  margin: auto 0;
+
+  &__header {
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.3em;
+    color: $purple;
+    height: 55px;
+  }
+
+  &__brand {
+    margin: 4px 0 16px;
+    font-size: 1.1em;
+    color: #777;
+    height: 30px;
+  }
+
+  &__body {
+    margin-bottom: 16px;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: 1em;
+    color: #555;
+    overflow-y: auto;
+    height: 80px;
+  }
+
+  &__footer {
+    font-size: 0.9em;
+    height: 45px;
+    color: #888;
+  }
+
+  &__categories-label {
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  &__category {
+    display: inline-block;
+    margin-right: 4px;
+    color: #555;
+    @media (max-width: $phone) {
+      height: 30px;  
+    
+    }
+  }
+
+  &__category-separator {
+    margin-right: 4px;
+    color: #888;
+  }
+}

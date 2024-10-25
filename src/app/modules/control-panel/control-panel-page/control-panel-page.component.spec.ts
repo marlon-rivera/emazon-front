@@ -39,39 +39,17 @@ describe('ControlPanelPageComponent', () => {
   describe('Navigation methods', () => {
     it('should navigate to categories when handleClickCategories is called', () => {
       component.handleClickCategories();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/control-panel/categories']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/categories']);
     });
 
     it('should navigate to brands when handleClickBrands is called', () => {
       component.handleClickBrands();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/control-panel/brands']);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/brands']);
     });
 
     it('should navigate to articles when handleClickArticles is called', () => {
       component.handleClickArticles();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['/control-panel/articles']);
-    });
-  });
-
-  describe('shouldHideButtons', () => {
-    it('should return true when current route includes /categories', () => {
-      mockRouter.url = '/control-panel/categories';
-      expect(component.shouldHideButtons()).toBeTruthy();
-    });
-
-    it('should return true when current route includes /brands', () => {
-      mockRouter.url = '/control-panel/brands';
-      expect(component.shouldHideButtons()).toBeTruthy();
-    });
-
-    it('should return true when current route includes /articles', () => {
-      mockRouter.url = '/control-panel/articles';
-      expect(component.shouldHideButtons()).toBeTruthy();
-    });
-
-    it('should return false when current route does not include categories, brands, or articles', () => {
-      mockRouter.url = '/control-panel';
-      expect(component.shouldHideButtons()).toBeFalsy();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/articles']);
     });
   });
 });

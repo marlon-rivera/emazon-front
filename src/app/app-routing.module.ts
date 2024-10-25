@@ -10,8 +10,44 @@ const routes: Routes = [
       {
         path: "",
         loadChildren: () =>
-          import("src/app/pages/pages.module").then((m) => m.PagesModule),
+          import("src/app/pages/home-pages/home-pages.module").then(
+            (m) => m.HomePagesModule
+          ),
       },
+      {
+        path: "login",
+        loadChildren: () =>
+          import("src/app/pages/auth-pages/auth-pages.module").then(
+            (m) => m.AuthPagesModule
+          ),
+      },
+      {
+        path: "control-panel",
+        loadChildren: () =>
+          import(
+            "src/app/pages/control-panel-pages/control-panel-pages.module"
+          ).then((m) => m.ControlPanelPagesModule)
+      },
+      {
+        path: "brands",
+        loadChildren: () =>
+          import("src/app/pages/brand-pages/brand-pages.module").then(
+            (m) => m.BrandPagesModule
+          ),
+      },
+      {
+        path: "categories",
+        loadChildren: () =>
+          import("src/app/pages/category-pages/category-pages.module").then(
+            (m) => m.CategoryPagesModule
+          ),
+      },
+      {
+        path: "articles",
+        loadChildren: () => import("src/app/pages/article-pages/article-pages.module").then(
+          m => m.ArticlePagesModule
+        )
+      }
     ],
   },
 ];

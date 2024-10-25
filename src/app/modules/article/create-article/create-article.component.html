@@ -3,6 +3,12 @@
     Crear un <span class="highlight">Artículo</span>
   </h2>
 
+  <div class="create-article__list">
+    <app-button
+      buttonText="Listar articulos"
+      (buttonClick)="handleClickListArticles()"
+    ></app-button>
+  </div>
   <form
     [formGroup]="articleForm"
     (ngSubmit)="onSubmit()"
@@ -189,9 +195,9 @@
     ></app-button>
   </form>
   <app-notification
-  *ngIf="showNotification"
-  [message]="notificationMessage"
-  [type]="notificationType"
->
-</app-notification>
+    *ngIf="showNotification"
+    [message]="notificationMessage"
+    [type]="notificationType"
+  >
+  </app-notification>
 </div>

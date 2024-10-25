@@ -21,6 +21,7 @@ import { BrandService } from "@/app/shared/services/brand.service";
 import { Category } from "@/app/shared/interfaces/category.interface";
 import { Brand } from "@/app/shared/interfaces/brandinterface";
 import { CreateArticle } from "@/app/shared/interfaces/article.interface";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-article",
@@ -44,7 +45,8 @@ export class CreateArticleComponent implements OnInit {
     readonly formBuilder: FormBuilder,
     readonly categoryService: CategoryService,
     readonly brandService: BrandService,
-    readonly articleService: ArticleService
+    readonly articleService: ArticleService,
+    readonly router: Router
   ) {}
 
   ngOnInit() {
@@ -122,6 +124,12 @@ export class CreateArticleComponent implements OnInit {
     }
   }
 
+  clearCategories() {
+    const categoriesArray = this.articleForm.get('categories') as FormArray;
+    categoriesArray.clear();
+    this.selectedCategories = []
+  }
+
   onSubmit() {
     if (this.articleForm.valid) {
       const createArticle: CreateArticle = {
@@ -138,18 +146,29 @@ export class CreateArticleComponent implements OnInit {
       }
       this.articleService.createArticle(createArticle).subscribe({
         next: () => {
-          console.log("Next")
           this.showNotification = true;
           this.notificationMessage = "Artículo creado con éxito";
           this.notificationType = NOTIFICATION_TYPE.SUCCESS;
+          this.articleForm.reset();
+          this.clearCategories();
+          this.autoHideNotification();
         },
         error: (err) => {
-          console.log("error: " + err.error.message)
           this.showNotification = true;
           this.notificationMessage = err.error.message;
           this.notificationType = NOTIFICATION_TYPE.ERROR;
         }}
       )
     }
+  }
+
+  handleClickListArticles() : void {
+    this.router.navigate(["/articles/list"])
+  }
+
+  private autoHideNotification() {
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
   }
 }

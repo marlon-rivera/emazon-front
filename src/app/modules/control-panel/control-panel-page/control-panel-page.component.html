@@ -1,4 +1,4 @@
-<section class="control_panel" *ngIf="!shouldHideButtons()">
+<section class="control_panel">
   <section class="control_panel--section">
     <svg
       fill="#9D3FE7"
@@ -143,7 +143,7 @@
       </g>
     </svg>
     <app-button
-      buttonText="Artículos"
+      buttonText="Crear artículo"
       (buttonClick)="handleClickArticles()"
     ></app-button>
   </section>
@@ -178,4 +178,3 @@
     ></app-button>
   </section>
 </section>
-<router-outlet></router-outlet>

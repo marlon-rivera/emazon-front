@@ -33,3 +33,5 @@ export const NOTIFICATION_TYPE = {
 export type NotificationType = typeof NOTIFICATION_TYPE[keyof typeof NOTIFICATION_TYPE];
 export const MAX_CATEGORIES_BY_ARTICLE = 3;
 export const MIN_CATEGORIES_BY_ARTICLE = 1;
+export const CRITERIA_ARTICLE_NAME = "Nombre articulo";
+export const CRITERIA_BRAND_NAME = "Nombre marca";

@@ -1,1 +1,25 @@
-<p>article-card works!</p>
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">{{ article.name }}</h2>
+    <h4 class="card__brand">{{ article.brand.name }}</h4>
+  </div>
+  <div class="card__body">
+    <p class="card__description">{{ article.description }}</p>
+  </div>
+  <div class="card__footer">
+    <ng-container *ngIf="article?.categories && article.categories.length > 0">
+      <strong class="card__categories-label">Categorías:</strong>
+      <ng-container *ngFor="let category of article.categories; let i = index">
+        <span *ngIf="i < 3" class="card__category">
+          {{ category.name
+          }}<span
+            class="card__category-separator"
+            *ngIf="i < 2 && article.categories.length > 1"
+            >,
+          </span>
+        </span>
+      </ng-container>
+    </ng-container>
+  </div>
+  <app-button buttonText="Añadir"></app-button>
+</div>
