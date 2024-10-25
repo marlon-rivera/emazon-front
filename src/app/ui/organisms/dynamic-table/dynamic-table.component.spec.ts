@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DynamicTableComponent } from './dynamic-table.component';
 import { DebugElement } from '@angular/core';
-import { PaginationInfo } from '@/app/interfaces/pagination-info.interface';
+import { PaginationInfo } from '@/app/shared/interfaces/pagination-info.interface';
 
 describe('DynamicTableComponent', () => {
   let component: DynamicTableComponent;

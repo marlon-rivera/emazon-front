@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateBrandComponent } from './create-brand.component';
 import { of, throwError } from 'rxjs';
-import { SharedModule } from 'src/app/modules/shared/shared.module';
-import { BrandService } from 'src/app/services/brand.service';
+import { UiModule } from 'src/app/ui/ui.module';
+import { BrandService } from '@/app/shared/services/brand.service';
 
 class MockBrandService {
   createBrand = jest.fn().mockReturnValue(of({}));
@@ -16,7 +16,7 @@ describe('CreateBrandComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, SharedModule],
+      imports: [ReactiveFormsModule, UiModule],
       declarations: [CreateBrandComponent],
       providers: [{ provide: BrandService, useClass: MockBrandService }]
     }).compileComponents();

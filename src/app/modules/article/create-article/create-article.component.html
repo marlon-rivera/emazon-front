@@ -1,0 +1,197 @@
+<div class="create-article">
+  <h2 class="create-article__title">
+    Crear un <span class="highlight">Artículo</span>
+  </h2>
+
+  <form
+    [formGroup]="articleForm"
+    (ngSubmit)="onSubmit()"
+    class="create-article__form"
+  >
+    <div>
+      <app-form-field
+        class="create-article__form-field"
+        [fieldId]="'name'"
+        [fieldName]="'name'"
+        [labelText]="'Nombre'"
+        [inputValue]="articleForm.get('name')?.value"
+        (inputValueChange)="articleForm.get('name')?.setValue($event)"
+        (touchedChange)="articleForm.get('name')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="create-article__error"
+        [ngClass]="{
+          visible:
+            articleForm.get('name')?.touched && articleForm.get('name')?.invalid
+        }"
+      >
+        <span
+          *ngIf="
+            articleForm.get('name')?.invalid && articleForm.get('name')?.touched
+          "
+          >El nombre es obligatorio.</span
+        >
+      </div>
+    </div>
+
+    <div>
+      <app-form-field
+        class="create-article__form-field"
+        [fieldId]="'description'"
+        [fieldName]="'description'"
+        [labelText]="'Descripción'"
+        [inputValue]="articleForm.get('description')?.value"
+        (inputValueChange)="articleForm.get('description')?.setValue($event)"
+        (touchedChange)="articleForm.get('description')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="create-article__error"
+        [ngClass]="{
+          visible:
+            articleForm.get('description')?.touched &&
+            articleForm.get('description')?.invalid
+        }"
+      >
+        <span
+          *ngIf="
+            articleForm.get('description')?.invalid &&
+            articleForm.get('description')?.touched
+          "
+          >La descripción es obligatoria.</span
+        >
+      </div>
+    </div>
+
+    <div>
+      <app-form-field
+        class="create-article__form-field"
+        [fieldId]="'quantity'"
+        [fieldName]="'quantity'"
+        [labelText]="'Cantidad'"
+        [inputValue]="articleForm.get('quantity')?.value"
+        (inputValueChange)="articleForm.get('quantity')?.setValue($event)"
+        (touchedChange)="articleForm.get('quantity')?.markAsTouched()"
+        type="number"
+      ></app-form-field>
+      <div
+        class="create-article__error"
+        [ngClass]="{
+          visible:
+            articleForm.get('quantity')?.touched &&
+            articleForm.get('quantity')?.invalid
+        }"
+      >
+        <span
+          *ngIf="
+            articleForm.get('quantity')?.invalid &&
+            articleForm.get('quantity')?.touched
+          "
+          >La cantidad debe ser al menos 1.</span
+        >
+      </div>
+    </div>
+
+    <div>
+      <app-form-field
+        class="create-article__form-field"
+        [fieldId]="'price'"
+        [fieldName]="'price'"
+        [labelText]="'Precio'"
+        type="number"
+        [inputValue]="articleForm.get('price')?.value"
+        (inputValueChange)="articleForm.get('price')?.setValue($event)"
+        (touchedChange)="articleForm.get('price')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="create-article__error"
+        [ngClass]="{
+          visible:
+            articleForm.get('price')?.touched &&
+            articleForm.get('price')?.invalid
+        }"
+      >
+        <span
+          *ngIf="
+            articleForm.get('price')?.invalid &&
+            articleForm.get('price')?.touched
+          "
+          >El precio debe ser mayor a 0.
+        </span>
+      </div>
+    </div>
+
+    <div>
+      <div class="create-article__form-group">
+        <label for="brand" class="create-article__label">Marca</label>
+        <app-combobox
+          class="create-article__combobox"
+          [options]="brandOptions"
+          [searchControl]="$any(articleForm.get('brand'))"
+          (controlChange)="onBrandSelect($event)"
+          (blur)="
+            articleForm.get('brandId')?.markAsTouched();
+            articleForm.get('brand')?.markAsTouched()
+          "
+        ></app-combobox>
+        <div
+          class="create-article__error"
+          [ngClass]="{
+            visible:
+              articleForm.get('brandId')?.touched &&
+              articleForm.get('brandId')?.invalid
+          }"
+        >
+          <span
+            *ngIf="
+              articleForm.get('brandId')?.invalid &&
+              articleForm.get('brandId')?.touched
+            "
+            >Selecciona una marca.</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="create-article__form-group">
+        <label for="categories" class="create-article__label">Categorías</label>
+        <app-combobox-multiple
+          class="create-article__combobox-multiple"
+          [options]="categoryOptions"
+          [selectedItems]="selectedCategories"
+          [maxSelectedItems]="maxCategories"
+          [minSelectedItems]="minCategories"
+          (selectedItemsChange)="onCategoriesChange($event)"
+          (blur)="articleForm.get('categories')?.markAsTouched()"
+        ></app-combobox-multiple>
+        <div
+          class="create-article__error"
+          [ngClass]="{
+            visible:
+              articleForm.get('categories')?.touched &&
+              articleForm.get('categories')?.invalid
+          }"
+        >
+          <span
+            *ngIf="articleForm.get('categories')?.errors?.categoryCountInvalid"
+            >Debes seleccionar entre {{ minCategories }} y
+            {{ maxCategories }} categorías.</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <app-button
+      class="create-article__button"
+      buttonText="Crear Artículo"
+      (buttonClick)="onSubmit()"
+      [disabledButton]="this.articleForm.invalid"
+    ></app-button>
+  </form>
+  <app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>
+</div>

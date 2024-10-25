@@ -11,7 +11,7 @@ export class FormFieldComponent {
   @Input() fieldName!: string;
   @Input() labelText!: string;
   @Input() inputValue!: string;
-
+  @Input() type: string = 'text';
   @Output() inputValueChange = new EventEmitter<string>();
   @Output() touchedChange = new EventEmitter<void>();
 

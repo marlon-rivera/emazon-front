@@ -1,0 +1,24 @@
+@import "src/variables.scss";
+.create-article {
+  width: 90vw;
+  margin: 10px auto;
+}
+.create-article__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  @media (max-width: $phone) {
+    grid-template-columns: 1fr;
+  }
+}
+.create-article__error {
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: $error;
+  &.visible {
+    opacity: 1;
+  }
+
+}
+

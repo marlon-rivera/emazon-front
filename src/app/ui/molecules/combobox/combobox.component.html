@@ -1,22 +1,22 @@
-<div class="combobox">
+<div #comboboxDiv class="combobox" (focusout)="onComboboxFocusOut($event)">
   <div class="combobox__input-wrapper">
     <input
       type="text"
       class="combobox__input"
       [formControl]="searchControl"
-      placeholder="Buscar..."
+      (focusin)="onFocus()"
     />
-    <span class="combobox__arrow">&#9662;</span>
   </div>
 
   <ul
     class="combobox__options"
-    *ngIf="searchControl.value && filteredOptions.length > 0"
+    [ngClass]="{'show': isFocused && filteredOptions.length > 0}"
+    *ngIf="isFocused && filteredOptions.length > 0"
   >
     <li
       *ngFor="let option of filteredOptions"
       class="combobox__option"
-      (click)="selectOption(option)"
+      (mousedown)="selectOption(option)"
     >
       {{ option.name }}
     </li>

@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
-import { CategoryService } from "src/app/services/category.service";
+import { CategoryService } from "@/app/shared/services/category.service";
 import {
   PaginationInfo,
-} from "@/app/interfaces/pagination-info.interface";
-import { Category } from "@/app/interfaces/category.interface";
+} from "@/app/shared/interfaces/pagination-info.interface";
+import { Category } from "@/app/shared/interfaces/category.interface";
 import {
   ASC_ORDER,
   DESC_ORDER,
@@ -12,7 +12,7 @@ import {
   MAX_VISIBLE_PAGES,
   NAME_CATEGORY,
   SIZE_PAGE,
-} from "@/app/utils/api.constants";
+} from "@/app/shared/utils/api.constants";
 @Component({
   selector: 'app-categories-panel-page',
   templateUrl: './categories-panel-page.component.html',
@@ -43,7 +43,7 @@ export class CategoriesPanelPageComponent {
         this.rows = this.paginationInfo.list.map(category => [
           category.name,
           category.description
-        ]);
+        ]); 
       });
   }
 

@@ -8,9 +8,9 @@ import {
   EMPTY,
   MAX_CHARACTERS_CATEGORY_DESCRIPTION,
   MAX_CHARACTERS_CATEGORY_NAME,
-} from "@/app/utils/api.constants";
-import { CategoryService } from "src/app/services/category.service";
-import { CategoryCreate } from "@/app/interfaces/category.interface";
+} from "@/app/shared/utils/api.constants";
+import { CategoryService } from "@/app/shared/services/category.service";
+import { CategoryCreate } from "@/app/shared/interfaces/category.interface";
 
 @Component({
   selector: "app-create-category",
@@ -50,8 +50,8 @@ export class CreateCategoryComponent implements OnInit {
   onSubmit() {
     if (this.categoryForm.valid) {
       const createCategory: CategoryCreate = {
-        name: this.categoryForm.get("name")?.value,
-        description: this.categoryForm.get("description")?.value,
+        name: this.categoryForm.get("name")!.value,
+        description: this.categoryForm.get("description")!.value,
       };
 
       this.categoryService.createCategory(createCategory).subscribe({

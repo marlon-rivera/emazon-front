@@ -3,9 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { of } from 'rxjs';
-import { BEARER, HEADER_AUTHORIZATION } from '../constants/api.constants';
+import { BEARER, HEADER_AUTHORIZATION } from 'src/app/shared/utils/api.constants';
 
 describe('TokenInterceptor', () => {
   let httpMock: HttpTestingController;

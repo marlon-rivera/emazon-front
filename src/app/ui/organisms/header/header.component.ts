@@ -6,8 +6,8 @@ import {
   SIZE_WIDTH_LOGO_DESKTOP_HEADER,
   SIZE_WIDTH_LOGO_PHONE_HEADER,
   EMPTY
-} from "@/app/utils/api.constants";
-import { AuthService } from "src/app/services/auth.service";
+} from "@/app/shared/utils/api.constants";
+import { AuthService } from "@/app/shared/services/auth.service";
 
 @Component({
   selector: "app-header",

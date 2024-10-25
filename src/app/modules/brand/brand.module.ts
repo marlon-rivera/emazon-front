@@ -5,8 +5,6 @@ import { CreateBrandComponent } from './create-brand/create-brand.component';
 import { UiModule } from '@/app/ui/ui.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [BrandsPanelPageComponent, CreateBrandComponent],
   imports: [

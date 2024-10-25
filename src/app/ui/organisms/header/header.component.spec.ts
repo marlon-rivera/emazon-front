@@ -1,78 +1,132 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
-
-class MockAuthService {
-  isLoggedIn = of(false);
-  checkAuthentication = jest.fn().mockReturnValue(false);
-}
+import { AuthService } from '@/app/shared/services/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import {
+  SIZE_PHONE,
+  SIZE_HEIGHT_LOGO_DESKTOP_HEADER,
+  SIZE_HEIGHT_LOGO_PHONE_HEADER,
+  SIZE_WIDTH_LOGO_DESKTOP_HEADER,
+  SIZE_WIDTH_LOGO_PHONE_HEADER,
+  EMPTY
+} from '@/app/shared/utils/api.constants';
+import { OrganismsModule } from '../organisms.module';
+import { UiModule } from '../../ui.module';
+import { RouterModule } from '@angular/router';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let authService: AuthService;
+  let authService: jest.Mocked<AuthService>;
+  let isLoggedInSubject: BehaviorSubject<boolean>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [HeaderComponent],
-      providers: [{ provide: AuthService, useClass: MockAuthService }]
-    }).compileComponents();
+    isLoggedInSubject = new BehaviorSubject<boolean>(false);
+    
+    const authServiceMock = {
+      isLoggedIn: isLoggedInSubject.asObservable(),
+      checkAuthentication: jest.fn().mockReturnValue(false)
+    };
 
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
+    await TestBed.configureTestingModule({
+      declarations: [ HeaderComponent ],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock }
+      ],
+    })
+    .compileComponents();
+
+    authService = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
   });
 
-  it('should create the component', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HeaderComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should set initial logo dimensions on init', () => {
-    component.ngOnInit();
-    expect(component.sizeHeightLogo).toBeDefined();
-    expect(component.sizeWidthtLogo).toBeDefined();
+  describe('ngOnInit', () => {
+    it('should call onResize', () => {
+      const onResizeSpy = jest.spyOn(component, 'onResize');
+      fixture.detectChanges();
+      expect(onResizeSpy).toHaveBeenCalled();
+    });
+
+    it('should subscribe to authService.isLoggedIn', () => {
+      fixture.detectChanges();
+      isLoggedInSubject.next(true);
+      expect(component.isLogged).toBe(true);
+    });
+
+    it('should check initial authentication status', () => {
+      authService.checkAuthentication.mockReturnValueOnce(true);
+      fixture.detectChanges();
+      expect(component.isLogged).toBe(true);
+      expect(authService.checkAuthentication).toHaveBeenCalled();
+    });
+
+    it('should initialize productSearched with EMPTY', () => {
+      fixture.detectChanges();
+      expect(component.productSearched).toBe(EMPTY);
+    });
   });
 
-  it('should update logo size on window resize', () => {
-    component.onResize();
-    expect(component.sizeHeightLogo).toBeGreaterThan(0);
-    expect(component.sizeWidthtLogo).toBeGreaterThan(0);
+  describe('onResize', () => {
+    describe('mobile view', () => {
+      beforeEach(() => {
+        global.innerWidth = SIZE_PHONE - 1;
+      });
+
+      it('should set mobile configuration when screen width is less than SIZE_PHONE', () => {
+        component.onResize();
+        expect(component.isMobile).toBe(true);
+        expect(component.sizeHeightLogo).toBe(SIZE_HEIGHT_LOGO_PHONE_HEADER);
+        expect(component.sizeWidthtLogo).toBe(SIZE_WIDTH_LOGO_PHONE_HEADER);
+      });
+    });
+
+    describe('desktop view', () => {
+      beforeEach(() => {
+        global.innerWidth = SIZE_PHONE + 1;
+      });
+
+      it('should set desktop configuration when screen width is greater than SIZE_PHONE', () => {
+        component.onResize();
+        expect(component.isMobile).toBe(false);
+        expect(component.sizeHeightLogo).toBe(SIZE_HEIGHT_LOGO_DESKTOP_HEADER);
+        expect(component.sizeWidthtLogo).toBe(SIZE_WIDTH_LOGO_DESKTOP_HEADER);
+      });
+    });
+
+    it('should respond to window resize event', () => {
+      const onResizeSpy = jest.spyOn(component, 'onResize');
+      
+      // Trigger window resize event
+      window.dispatchEvent(new Event('resize'));
+      
+      expect(onResizeSpy).toHaveBeenCalled();
+    });
   });
 
-  it('should set isMobile to true when window width is less than SIZE_PHONE', () => {
-    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 500 });
-    component.onResize();
-    expect(component.isMobile).toBeTruthy();
+  describe('authentication changes', () => {
+    it('should update isLogged when auth status changes', () => {
+      fixture.detectChanges();
+      expect(component.isLogged).toBe(false);
+      
+      isLoggedInSubject.next(true);
+      expect(component.isLogged).toBe(true);
+      
+      isLoggedInSubject.next(false);
+      expect(component.isLogged).toBe(false);
+    });
   });
 
-  it('should set isMobile to false when window width is greater than or equal to SIZE_PHONE', () => {
-    Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 800 });
-    component.onResize();
-    expect(component.isMobile).toBeFalsy();
-  });
-
-  it('should subscribe to isLoggedIn observable from authService', () => {
-    component.ngOnInit();
-    expect(authService.isLoggedIn).toBeDefined();
-  });
-
-  it('should set isLogged based on authentication check', () => {
-    authService.checkAuthentication = jest.fn().mockReturnValue(true);
-    component.ngOnInit();
-    expect(component.isLogged).toBeTruthy();
-  });
-
-  it('should render the login link correctly', () => {
-    fixture.detectChanges();
-    const loginLink = fixture.debugElement.query(By.css('.header__login__login'));
-    expect(loginLink.nativeElement.textContent.trim()).toContain('Ingresar');
-  });
-
-  it('should render the logo component', () => {
-    fixture.detectChanges();
-    const logoElement = fixture.debugElement.query(By.css('app-logo'));
-    expect(logoElement).toBeTruthy();
+  // Cleanup after tests
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });

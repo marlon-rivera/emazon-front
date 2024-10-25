@@ -39,7 +39,6 @@
 
   <span *ngFor="let page of getVisiblePages(); let i = index">
     <ng-container *ngIf="page === -1">
-      <!-- Mostrar los puntos suspensivos cuando page es -1 -->
       <ng-template #ellipsis>...</ng-template>
       <ng-container *ngTemplateOutlet="ellipsis"></ng-container>
     </ng-container>

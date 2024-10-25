@@ -1,51 +1,15 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ButtonComponent } from "./atoms/button/button.component";
-import { InputFieldComponent } from "./atoms/input-field/input-field.component";
-import { LabelComponent } from "./atoms/label/label.component";
-import { LogoComponent } from "./atoms/logo/logo.component";
-import { NotificationComponent } from "./atoms/notification/notification.component";
-import { ComboboxComponent } from "./molecules/combobox/combobox.component";
-import { ComboboxMultipleComponent } from "./molecules/combobox-multiple/combobox-multiple.component";
-import { FormFieldComponent } from "./molecules/form-field/form-field.component";
-import { DynamicTableComponent } from "./organisms/dynamic-table/dynamic-table.component";
-import { FooterComponent } from "./organisms/footer/footer.component";
-import { HeaderComponent } from "./organisms/header/header.component";
-import { LayoutComponent } from "./templates/layout/layout.component";
 import { RouterModule } from "@angular/router";
-import { ReactiveFormsModule } from "@angular/forms";
+import { AtomsModule } from "./atoms/atoms.module";
+import { MoleculesModule } from "./molecules/molecules.module";
+import { OrganismsModule } from "./organisms/organisms.module";
+import { TemplatesModule } from "./templates/templates.module";
 
 @NgModule({
-  declarations: [
-    InputFieldComponent,
-    LabelComponent,
-    LabelComponent,
-    LogoComponent,
-    NotificationComponent,
-    ComboboxComponent,
-    ComboboxMultipleComponent,
-    FormFieldComponent,
-    DynamicTableComponent,
-    FooterComponent,
-    HeaderComponent,
-    LayoutComponent,
-    ButtonComponent
-  ],
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, AtomsModule, MoleculesModule, OrganismsModule, TemplatesModule],
   exports: [
-    InputFieldComponent,
-    LabelComponent,
-    LabelComponent,
-    LogoComponent,
-    NotificationComponent,
-    ComboboxComponent,
-    ComboboxMultipleComponent,
-    FormFieldComponent,
-    DynamicTableComponent,
-    FooterComponent,
-    HeaderComponent,
-    LayoutComponent,
-    ButtonComponent
+    AtomsModule, MoleculesModule, OrganismsModule, TemplatesModule
   ],
 })
 export class UiModule {}

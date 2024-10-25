@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { CategoriesPanelPageComponent } from "./categories-panel-page.component";
-import { CategoryService } from "src/app/services/category.service";
+import { CategoryService } from "@/app/shared/services/category.service";
 import { of } from "rxjs";
-import { PaginationInfoResponse } from "@/app/interfaces/pagination-info.interface";
-import { Category } from "@/app/interfaces/category.interface";
-import { SIZE_PAGE, ASC_ORDER, DESC_ORDER, NAME_CATEGORY, NAME_BRAND } from "@/app/utils/api.constants";
+import { PaginationInfoResponse } from "@/app/shared/interfaces/pagination-info.interface";
+import { Category } from "@/app/shared/interfaces/category.interface";
+import { SIZE_PAGE, ASC_ORDER, DESC_ORDER, NAME_CATEGORY, NAME_BRAND } from "@/app/shared/utils/api.constants";
+import { UiModule } from "@/app/ui/ui.module";
+import { CategoryModule } from "../category.module";
 
 describe("CategoriesPanelPageComponent", () => {
   let component: CategoriesPanelPageComponent;
@@ -18,6 +20,7 @@ describe("CategoriesPanelPageComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [CategoriesPanelPageComponent],
+      imports: [CategoryModule],
       providers: [{ provide: CategoryService, useValue: categoryService }],
     }).compileComponents();
 
@@ -131,7 +134,7 @@ describe("CategoriesPanelPageComponent", () => {
   });
 
   it("should change the sort order and fetch categories DESC to ASC", () => {
-    console.log(component.currentSortOrder)
+    (component.currentSortOrder)
     component.currentSortOrder[NAME_CATEGORY] = DESC_ORDER;
     const mockResponse: PaginationInfoResponse<Category> = {
       paginationInfo: {
@@ -150,7 +153,6 @@ describe("CategoriesPanelPageComponent", () => {
 
     categoryService.getCategories.mockReturnValue(of(mockResponse));
     component.onSortChange(NAME_BRAND);
-    console.log(component.currentSortOrder)
     expect(component.currentSortOrder[NAME_BRAND]).toBe(ASC_ORDER);
     expect(categoryService.getCategories).toHaveBeenCalledWith(
       component.currentPage,

@@ -1,12 +1,12 @@
-import { EMPTY, MAX_CHARACTERS_BRAND_DESCRIPTION, MAX_CHARACTERS_BRAND_NAME } from '@/app/utils/api.constants';
+import { EMPTY, MAX_CHARACTERS_BRAND_DESCRIPTION, MAX_CHARACTERS_BRAND_NAME, NOTIFICATION_TYPE, NotificationType } from '@/app/shared/utils/api.constants';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { BrandCreate } from '@/app/interfaces/brandinterface';
-import { BrandService } from 'src/app/services/brand.service';
+import { BrandCreate } from '@/app/shared/interfaces/brandinterface';
+import { BrandService } from '@/app/shared/services/brand.service';
 @Component({
   selector: 'app-create-brand',
   templateUrl: './create-brand.component.html',
@@ -16,7 +16,7 @@ export class CreateBrandComponent implements OnInit {
 
   brandForm!: FormGroup;
   notificationMessage: string = '';
-  notificationType: 'success' | 'error' = 'success';
+  notificationType: NotificationType = NOTIFICATION_TYPE.SUCCESS;
   showNotification: boolean = false;
 
   constructor(
@@ -46,21 +46,21 @@ export class CreateBrandComponent implements OnInit {
   onSubmit() {
     if (this.brandForm.valid) {
       const createBrand: BrandCreate = {
-        name: this.brandForm.get("name")?.value,
-        description: this.brandForm.get("description")?.value,
+        name: this.brandForm.get("name")!.value,
+        description: this.brandForm.get("description")!.value,
       };
 
       this.brandService.createBrand(createBrand).subscribe({
         next: () => {
           this.notificationMessage = "Marca creada exitosamente";
-          this.notificationType = "success";
+          this.notificationType = NOTIFICATION_TYPE.SUCCESS;
           this.showNotification = true;
           this.brandForm.reset(); 
           this.autoHideNotification();
         },
         error: (err) => {
           this.notificationMessage = err.error.message;
-          this.notificationType = "error";
+          this.notificationType = NOTIFICATION_TYPE.ERROR;
           this.showNotification = true;
           this.autoHideNotification();
         },

@@ -12,6 +12,7 @@ export class InputFieldComponent {
   @Input() value!: string;
   @Input() size: number = 50;
   @Input() required!: boolean;
+  @Input() type: string = 'text';
 
   @Output() valueChange = new EventEmitter<string>();
   @Output() blur = new EventEmitter<void>();

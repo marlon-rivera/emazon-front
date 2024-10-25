@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 import { BrandsPanelPageComponent } from "./brands-panel-page.component";
-import { BrandService } from "src/app/services/brand.service";
-import { Brand } from "@/app/interfaces/brandinterface";
+import { BrandService } from "@/app/shared/services/brand.service";
+import { Brand } from "@/app/shared/interfaces/brandinterface";
 import {
   PaginationInfo,
   PaginationInfoResponse,
-} from "@/app/interfaces/pagination-info.interface";
+} from "@/app/shared/interfaces/pagination-info.interface";
 import {
   ASC_ORDER,
   DESC_ORDER,
   MAX_VISIBLE_PAGES,
   NAME_BRAND,
   SIZE_PAGE,
-} from "@/app/utils/api.constants";
+} from "@/app/shared/utils/api.constants";
 
 describe("BrandsPanelPageComponent", () => {
   let component: BrandsPanelPageComponent;

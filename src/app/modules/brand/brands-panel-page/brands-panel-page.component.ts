@@ -1,7 +1,7 @@
-import { ASC_ORDER, DESC_ORDER, DESCRIPTION_BRAND, INITIAL_PAGE, MAX_VISIBLE_PAGES, NAME_BRAND, NAME_CATEGORY, SIZE_PAGE } from '@/app/utils/api.constants';
-import { Brand } from '@/app/interfaces/brandinterface';
-import { PaginationInfo } from '@/app/interfaces/pagination-info.interface';
-import { BrandService } from 'src/app/services/brand.service';
+import { ASC_ORDER, DESC_ORDER, DESCRIPTION_BRAND, INITIAL_PAGE, MAX_VISIBLE_PAGES, NAME_BRAND, NAME_CATEGORY, SIZE_PAGE } from '@/app/shared/utils/api.constants';
+import { Brand } from '@/app/shared/interfaces/brandinterface';
+import { PaginationInfo } from '@/app/shared/interfaces/pagination-info.interface';
+import { BrandService } from '@/app/shared/services/brand.service';
 import { Component } from '@angular/core';
 
 @Component({

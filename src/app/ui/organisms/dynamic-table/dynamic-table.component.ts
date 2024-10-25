@@ -1,4 +1,4 @@
-import { PaginationInfo } from '@/app/interfaces/pagination-info.interface';
+import { PaginationInfo } from '@/app/shared/interfaces/pagination-info.interface';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({

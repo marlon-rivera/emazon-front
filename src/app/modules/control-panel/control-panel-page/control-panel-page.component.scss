@@ -1,4 +1,23 @@
-.control_panel{
-    display: flex;
-    gap: 5px;
+@import "src/variables.scss";
+
+.control_panel {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+}
+.control_panel--division {
+  width: 3px;
+  height: 350px;
+  background: linear-gradient(
+    159.13deg,
+    rgba(157, 63, 231, 0.2413) 0%,
+    rgba(96, 32, 147, 1) 50%,
+    rgba(157, 63, 231, 0.2413) 100%
+  );
+}
+.control_panel--section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

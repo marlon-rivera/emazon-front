@@ -1,15 +1,181 @@
 <section class="control_panel" *ngIf="!shouldHideButtons()">
-  <app-button
-    buttonText="Categorías"
-    (buttonClick)="handleClickCategories()"
-  ></app-button>
-  <app-button
-    buttonText="Marcas"
-    (buttonClick)="handleClickBrands()"
-  ></app-button>
-  <app-button
-    buttonText="Artículos"
-    (buttonClick)="handleClickArticles()"
-  ></app-button>
+  <section class="control_panel--section">
+    <svg
+      fill="#9D3FE7"
+      viewBox="0 0 32 32"
+      width="120"
+      id="icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: none;
+            }
+          </style>
+        </defs>
+        <title>categories</title>
+        <path
+          d="M6.76,6l.45.89L7.76,8H12v5H4V6H6.76m.62-2H3A1,1,0,0,0,2,5v9a1,1,0,0,0,1,1H13a1,1,0,0,0,1-1V7a1,1,0,0,0-1-1H9L8.28,4.55A1,1,0,0,0,7.38,4Z"
+          transform="translate(0 0)"
+        ></path>
+        <path
+          d="M22.76,6l.45.89L23.76,8H28v5H20V6h2.76m.62-2H19a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1H29a1,1,0,0,0,1-1V7a1,1,0,0,0-1-1H25l-.72-1.45a1,1,0,0,0-.9-.55Z"
+          transform="translate(0 0)"
+        ></path>
+        <path
+          d="M6.76,19l.45.89L7.76,21H12v5H4V19H6.76m.62-2H3a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1H13a1,1,0,0,0,1-1V20a1,1,0,0,0-1-1H9l-.72-1.45a1,1,0,0,0-.9-.55Z"
+          transform="translate(0 0)"
+        ></path>
+        <path
+          d="M22.76,19l.45.89L23.76,21H28v5H20V19h2.76m.62-2H19a1,1,0,0,0-1,1v9a1,1,0,0,0,1,1H29a1,1,0,0,0,1-1V20a1,1,0,0,0-1-1H25l-.72-1.45a1,1,0,0,0-.9-.55Z"
+          transform="translate(0 0)"
+        ></path>
+        <rect
+          id="Transparent_Rectangle"
+          data-name="<Transparent Rectangle>"
+          class="cls-1"
+          width="32"
+          height="32"
+        ></rect>
+      </g>
+    </svg>
+    <app-button
+      buttonText="Categorías"
+      (buttonClick)="handleClickCategories()"
+    ></app-button>
+  </section>
+  <div class="control_panel--division"></div>
+  <section class="control_panel--section">
+    <svg
+      viewBox="0 0 24 24"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      fill="#000000"
+      width="120"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <title></title>
+        <g
+          fill="none"
+          fill-rule="evenodd"
+          id="页面-1"
+          stroke="none"
+          stroke-width="1"
+        >
+          <g id="导航图标" transform="translate(-325.000000, -80.000000)">
+            <g id="编组" transform="translate(325.000000, 80.000000)">
+              <polygon
+                fill="#9D3FE7"
+                fill-opacity="0.01"
+                fill-rule="nonzero"
+                id="路径"
+                points="24 0 0 0 0 24 24 24"
+              ></polygon>
+              <polygon
+                id="路径"
+                points="22 7 12 2 2 7 2 17 12 22 22 17"
+                stroke="#9D3FE7"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              ></polygon>
+              <line
+                id="路径"
+                stroke="#9D3FE7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                x1="2"
+                x2="12"
+                y1="7"
+                y2="12"
+              ></line>
+              <line
+                id="路径"
+                stroke="#9D3FE7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                x1="12"
+                x2="12"
+                y1="22"
+                y2="12"
+              ></line>
+              <line
+                id="路径"
+                stroke="#9D3FE7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                x1="22"
+                x2="12"
+                y1="7"
+                y2="12"
+              ></line>
+              <line
+                id="路径"
+                stroke="#9D3FE7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                x1="17"
+                x2="7"
+                y1="4.5"
+                y2="9.5"
+              ></line>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <app-button
+      buttonText="Artículos"
+      (buttonClick)="handleClickArticles()"
+    ></app-button>
+  </section>
+  <div class="control_panel--division"></div>
+
+  <section class="control_panel--section">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      width="120"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M7.0498 7.0498H7.0598M10.5118 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V10.5118C3 11.2455 3 11.6124 3.08289 11.9577C3.15638 12.2638 3.27759 12.5564 3.44208 12.8249C3.6276 13.1276 3.88703 13.387 4.40589 13.9059L9.10589 18.6059C10.2939 19.7939 10.888 20.388 11.5729 20.6105C12.1755 20.8063 12.8245 20.8063 13.4271 20.6105C14.112 20.388 14.7061 19.7939 15.8941 18.6059L18.6059 15.8941C19.7939 14.7061 20.388 14.112 20.6105 13.4271C20.8063 12.8245 20.8063 12.1755 20.6105 11.5729C20.388 10.888 19.7939 10.2939 18.6059 9.10589L13.9059 4.40589C13.387 3.88703 13.1276 3.6276 12.8249 3.44208C12.5564 3.27759 12.2638 3.15638 11.9577 3.08289C11.6124 3 11.2455 3 10.5118 3ZM7.5498 7.0498C7.5498 7.32595 7.32595 7.5498 7.0498 7.5498C6.77366 7.5498 6.5498 7.32595 6.5498 7.0498C6.5498 6.77366 6.77366 6.5498 7.0498 6.5498C7.32595 6.5498 7.5498 6.77366 7.5498 7.0498Z"
+          stroke="#9D3FE7"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </g>
+    </svg>
+    <app-button
+      buttonText="Marcas"
+      (buttonClick)="handleClickBrands()"
+    ></app-button>
+  </section>
 </section>
 <router-outlet></router-outlet>

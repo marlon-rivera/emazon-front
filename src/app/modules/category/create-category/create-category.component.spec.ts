@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateCategoryComponent } from './create-category.component';
-import { CategoryService } from 'src/app/services/category.service';
+import { CategoryService } from '@/app/shared/services/category.service';
 import { of, throwError } from 'rxjs';
 import { UiModule } from '@/app/ui/ui.module';
 class MockCategoryService {
