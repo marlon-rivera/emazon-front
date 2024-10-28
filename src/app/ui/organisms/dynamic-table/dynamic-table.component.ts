@@ -13,7 +13,7 @@ export class DynamicTableComponent{
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() maxVisiblePages!: number;
-  @Input() paginationInfo!: PaginationInfo<any>;
+  @Input() paginationInfo!: PaginationInfo<unknown>;
 
 
   @Output() sortChange = new EventEmitter<string>();

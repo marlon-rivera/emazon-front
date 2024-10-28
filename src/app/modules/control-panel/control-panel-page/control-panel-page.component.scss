@@ -4,6 +4,20 @@
   width: 100vw;
   display: flex;
   justify-content: space-evenly;
+  
+  svg{
+    width: 120px;
+  }
+
+  @media (max-width: $phone) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+
+    svg{
+      width: 50px;
+    }
+  }
 }
 .control_panel--division {
   width: 3px;
@@ -14,10 +28,22 @@
     rgba(96, 32, 147, 1) 50%,
     rgba(157, 63, 231, 0.2413) 100%
   );
+
+  @media (max-width: $phone) {
+    display: none;
+  }
+  
 }
 .control_panel--section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &__description{
+    text-align: center;
+    width: 150px;
+    text-wrap: wrap;
+  }
+
 }

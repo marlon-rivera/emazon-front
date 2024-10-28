@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { LayoutComponent } from "./ui/templates/layout/layout.component";
+import { TYPE_USER_WAREHOUSE_ASSISTANT } from "./shared/utils/api.constants";
 
 const routes: Routes = [
   {
@@ -46,6 +47,12 @@ const routes: Routes = [
         path: "articles",
         loadChildren: () => import("src/app/pages/article-pages/article-pages.module").then(
           m => m.ArticlePagesModule
+        )
+      },
+      {
+        path: "warehouse-assistant",
+        loadChildren: () => import('src/app/pages/warehouse-assistant-pages/warehouse-assistant-pages.module').then(
+          m => m.WarehouseAssistantPagesModule
         )
       }
     ],

@@ -1,0 +1,189 @@
+<form class="register-form" [formGroup]="registerForm" >
+    <div>
+      <app-form-field
+        fieldId="name"
+        fieldName="name"
+        labelText="Nombre"
+        [inputValue]="registerForm.get('name')?.value"
+        (inputValueChange)="registerForm.get('name')?.setValue($event)"
+        (touchedChange)="registerForm.get('name')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('name')?.touched &&
+            registerForm.get('name')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('name')?.errors?.required"
+          >El nombre es obligatorio.</small
+        >
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="lastName"
+        fieldName="lastName"
+        labelText="Apellido"
+        [inputValue]="registerForm.get('lastName')?.value"
+        (inputValueChange)="registerForm.get('lastName')?.setValue($event)"
+        (touchedChange)="registerForm.get('lastName')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('lastName')?.touched &&
+            registerForm.get('lastName')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('lastName')?.errors?.required"
+          >El apellido es obligatorio.</small
+        >
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="id"
+        fieldName="id"
+        labelText="Número de Identificación"
+        [inputValue]="registerForm.get('id')?.value"
+        (inputValueChange)="registerForm.get('id')?.setValue($event)"
+        (touchedChange)="registerForm.get('id')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('id')?.touched &&
+            registerForm.get('id')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('id')?.errors?.required"
+          >El número de identificación es obligatorio.</small
+        >
+        <small *ngIf="registerForm.get('id')?.errors?.pattern"
+          >El número de identificación debe ser numérico.</small
+        >
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="phone"
+        fieldName="phone"
+        labelText="Teléfono"
+        [inputValue]="registerForm.get('phone')?.value"
+        (inputValueChange)="registerForm.get('phone')?.setValue($event)"
+        (touchedChange)="registerForm.get('phone')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('phone')?.touched &&
+            registerForm.get('phone')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('phone')?.errors?.required"
+          >El número de teléfono es obligatorio.</small
+        >
+        <small *ngIf="registerForm.get('phone')?.errors?.maxLength"
+          >El número de teléfono no puede exceder los 13 caracteres.</small
+        >
+        <small *ngIf="registerForm.get('phone')?.errors?.pattern"
+          >El número de teléfono debe ser válido (ejemplo: +573005698325 0
+          3005698325).</small
+        >
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="birthDate"
+        fieldName="birthDate"
+        labelText="Fecha de Nacimiento"
+        [inputValue]="registerForm.get('birthDate')?.value"
+        (inputValueChange)="registerForm.get('birthDate')?.setValue($event)"
+        [type]="'date'"
+        (touchedChange)="registerForm.get('birthDate')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('birthDate')?.touched &&
+            registerForm.get('birthDate')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('birthDate')?.errors?.required"
+          >La fecha de nacimiento es obligatoria.</small
+        >
+        <small *ngIf="registerForm.get('birthDate')?.errors?.['underage']">
+          Debes ser mayor de 18 años
+        </small>
+        <small *ngIf="registerForm.get('birthDate')?.errors?.['futureDate']">
+          La fecha no puede ser futura
+        </small>
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="email"
+        fieldName="email"
+        labelText="Correo Electrónico"
+        [inputValue]="registerForm.get('email')?.value"
+        (inputValueChange)="registerForm.get('email')?.setValue($event)"
+        (touchedChange)="registerForm.get('email')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('email')?.touched &&
+            registerForm.get('email')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('email')?.errors?.required"
+          >El correo electrónico es obligatorio.</small
+        >
+        <small *ngIf="registerForm.get('email')?.errors?.email"
+          >Formato de correo electrónico inválido.</small
+        >
+      </div>
+    </div>
+    <div>
+      <app-form-field
+        fieldId="password"
+        fieldName="password"
+        labelText="Contraseña"
+        [inputValue]="registerForm.get('password')?.value"
+        (inputValueChange)="registerForm.get('password')?.setValue($event)"
+        [type]="'password'"
+        (touchedChange)="registerForm.get('password')?.markAsTouched()"
+      ></app-form-field>
+      <div
+        class="error-message"
+        [ngClass]="{
+          visible:
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.invalid
+        }"
+      >
+        <small *ngIf="registerForm.get('password')?.errors?.required"
+          >La contraseña es obligatoria.</small
+        >
+        <small *ngIf="registerForm.get('password')?.errors?.minlength"
+          >La contraseña debe tener al menos 6 caracteres.</small
+        >
+      </div>
+    </div>
+    <div></div>
+    <app-button buttonText="Registrar" [disabledButton]="registerForm.invalid" (buttonClick)="onSubmit()"></app-button>
+  </form>
+  <app-notification
+    *ngIf="showNotification"
+    [message]="notificationMessage"
+    [type]="notificationType"
+  >
+  </app-notification>
+  

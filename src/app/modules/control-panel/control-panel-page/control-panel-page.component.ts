@@ -20,4 +20,8 @@ export class ControlPanelPageComponent {
   handleClickArticles(): void {
     this.router.navigate(["/articles"]);
   }
+
+  handleClickWarehouseAssistant(): void {
+    this.router.navigate(["/warehouse-assistant"]);
+  }
 }
