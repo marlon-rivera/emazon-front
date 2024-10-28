@@ -20,7 +20,6 @@ export class CategoryService {
   getCategories(page: number, size: number, order: string): Observable<PaginationInfoResponse<Category>> {
     return this.http.get<PaginationInfoResponse<Category>>(`${API_URL_CATEGORY}/all?page=${page}&size=${size}&order=${order}`).pipe(
       catchError((error) => {
-        console.error('Error fetching categories:', error);
         const emptyResponse: PaginationInfoResponse<Category> = {
           paginationInfo: {
             list: [],

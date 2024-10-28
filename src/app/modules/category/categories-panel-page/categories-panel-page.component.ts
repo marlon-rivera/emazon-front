@@ -23,7 +23,7 @@ export class CategoriesPanelPageComponent {
     { name: NAME_CATEGORY, sortable: true },
     { name: DESCRIPTION_CATEGORY, sortable: false }
   ];
-  rows!: any[];
+  rows!: (string | number | null)[][];
   paginationInfo!: PaginationInfo<Category>;
   currentPage = INITIAL_PAGE;
   maxVisiblePages = MAX_VISIBLE_PAGES;

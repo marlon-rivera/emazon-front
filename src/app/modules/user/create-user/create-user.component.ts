@@ -104,7 +104,6 @@ export class CreateUserComponent implements OnInit {
           this.autoHideNotification();
         },
         error: (err) => {
-          console.log(err.error);
           this.notificationMessage = err.error.message;
           this.notificationType = NOTIFICATION_TYPE.ERROR;
           this.showNotification = true;

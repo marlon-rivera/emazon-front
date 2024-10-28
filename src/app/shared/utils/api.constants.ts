@@ -29,9 +29,10 @@ export const DESCRIPTION_BRAND: string = "Descripción";
 export const MAX_VISIBLE_PAGES: number = 5;
 export const NOTIFICATION_TYPE = {
   SUCCESS: "success" as const,
-  ERROR: "error" as const
+  ERROR: "error" as const,
 };
-export type NotificationType = typeof NOTIFICATION_TYPE[keyof typeof NOTIFICATION_TYPE];
+export type NotificationType =
+  (typeof NOTIFICATION_TYPE)[keyof typeof NOTIFICATION_TYPE];
 export const MAX_CATEGORIES_BY_ARTICLE = 3;
 export const MIN_CATEGORIES_BY_ARTICLE = 1;
 export const CRITERIA_ARTICLE_NAME = "Nombre articulo";
@@ -39,5 +40,8 @@ export const CRITERIA_BRAND_NAME = "Nombre marca";
 export const MAX_LENGTH_PHONE = 13;
 export const MIN_AGE = 18;
 export const MIN_LENGTH_PASSWORD = 6;
-export const TYPE_USER_WAREHOUSE_ASSISTANT = 'warehouse-assistant';
-export const TYPE_USER_CLIENT = 'client';
+export const TYPE_USER_WAREHOUSE_ASSISTANT = "warehouse-assistant";
+export const TYPE_USER_CLIENT = "client";
+export const WAREHOUSE_ROLE = "WAREHOUSE_MANAGER";
+export const CLIENT_ROLE = "USER";
+export const ADMIN_ROLE = "ADMIN";

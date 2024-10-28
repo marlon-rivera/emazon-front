@@ -100,7 +100,7 @@ export class CreateArticleComponent implements OnInit {
     return null;
   };
 
-  onCategoriesChange(event: any) {
+  onCategoriesChange(event: Option[]) {
     const selectedCategories = event as { id: number; name: string }[];
     const categoriesFormArray = this.articleForm.get("categories") as FormArray;
     categoriesFormArray.clear();

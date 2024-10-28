@@ -1,1 +1,34 @@
-<app-button buttonText="Ingresar" [disabledButton]="false" (buttonClick)="login()"></app-button>
+<div class="login">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+    <h1 class="login__title">Iniciar Sesión</h1>
+    <app-form-field
+      fieldId="email"
+      fieldName="email"
+      labelText="Correo Electrónico"
+      [inputValue]="loginForm.get('email')?.value"
+      (inputValueChange)="loginForm.get('email')?.setValue($event)"
+      type="email"
+    ></app-form-field>
+
+    <app-form-field
+      fieldId="password"
+      fieldName="password"
+      labelText="Contraseña"
+      [inputValue]="loginForm.get('password')?.value"
+      (inputValueChange)="loginForm.get('password')?.setValue($event)"
+      type="password"
+    ></app-form-field>
+
+    <app-button
+      buttonText="Ingresar"
+      [disabledButton]="false"
+      (buttonClick)="onSubmit()"
+    ></app-button>
+  </form>
+</div>
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

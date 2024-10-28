@@ -20,7 +20,6 @@ export class BrandService {
   getBrands(page: number, size: number, order: string): Observable<PaginationInfoResponse<Brand>> {
     return this.http.get<PaginationInfoResponse<Brand>>(`${API_URL_BRAND}/all?page=${page}&size=${size}&order=${order}`).pipe(
       catchError((error) => {
-        console.error('Error fetching brands:', error);
         const emptyResponse: PaginationInfoResponse<Brand> = {
           paginationInfo: {
             list: [],

@@ -29,7 +29,6 @@ export class ArticleService {
       `${API_URL_ARTICLE}/all?page=${page}&size=${size}&order=${order}&sortBy=${sortBy}&idsCategories=${idsCategories}`
     ).pipe(
       catchError((error) => {
-        console.error('Error fetching articles:', error);
         const emptyResponse: PaginationInfoResponse<Article> = {
           paginationInfo: {
             list: [],

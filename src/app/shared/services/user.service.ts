@@ -12,7 +12,6 @@ export class UserService {
   constructor(readonly http: HttpClient) { }
 
   createWarehouseAssistant(request: CreateUser): Observable<void> {
-    console.log(request)
     return this.http.post<void>(`${API_URL_USER}/registerWarehouse`, request);
   }
 

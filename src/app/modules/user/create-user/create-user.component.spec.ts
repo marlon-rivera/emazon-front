@@ -29,10 +29,9 @@ describe('CreateUserComponent', () => {
   };
 
   beforeEach(async () => {
-    // Mock del UserService
     userService = {
       createWarehouseAssistant: jest.fn()
-    } as any;
+    } as unknown as jest.Mocked<UserService>;
 
     await TestBed.configureTestingModule({
       declarations: [ CreateUserComponent ],
@@ -45,7 +44,6 @@ describe('CreateUserComponent', () => {
 
     fixture = TestBed.createComponent(CreateUserComponent);
     component = fixture.componentInstance;
-    // Establecer el userType como Input
     component.userType = mockUserType;
     fixture.detectChanges();
   });
@@ -95,19 +93,15 @@ describe('CreateUserComponent', () => {
     it('should validate phone format and length', () => {
       const phoneControl = component.registerForm.get('phone');
       
-      // Formato inválido
       phoneControl?.setValue('123456789');
       expect(phoneControl?.hasError('pattern')).toBeTruthy();
       
-      // Formato válido con +57 pero muy largo
       phoneControl?.setValue('+5731234567890');
       expect(phoneControl?.hasError('maxlength')).toBeTruthy();
       
-      // Formato válido con +57
       phoneControl?.setValue('+573123456789');
       expect(phoneControl?.valid).toBeTruthy();
       
-      // Formato válido sin +57
       phoneControl?.setValue('3123456789');
       expect(phoneControl?.valid).toBeTruthy();
     });
@@ -135,19 +129,16 @@ describe('CreateUserComponent', () => {
     it('should validate age', () => {
       const birthDateControl = component.registerForm.get('birthDate');
       
-      // Fecha futura
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
       birthDateControl?.setValue(futureDate.toISOString().split('T')[0]);
       expect(birthDateControl?.hasError('futureDate')).toBeTruthy();
       
-      // Menor de edad
       const underageDate = new Date();
       underageDate.setFullYear(underageDate.getFullYear() - 17);
       birthDateControl?.setValue(underageDate.toISOString().split('T')[0]);
       expect(birthDateControl?.hasError('underage')).toBeTruthy();
       
-      // Mayor de edad válido
       const validDate = new Date();
       validDate.setFullYear(validDate.getFullYear() - 20);
       birthDateControl?.setValue(validDate.toISOString().split('T')[0]);
@@ -159,7 +150,6 @@ describe('CreateUserComponent', () => {
     it('should call createWarehouseAssistant on valid form submission', fakeAsync(() => {
       userService.createWarehouseAssistant.mockReturnValue(of(void 0));
       
-      // Llenar el formulario con datos válidos
       Object.keys(mockValidUser).forEach(key => {
         component.registerForm.get(key)?.setValue(mockValidUser[key as keyof typeof mockValidUser]);
       });
@@ -172,10 +162,8 @@ describe('CreateUserComponent', () => {
       expect(component.notificationType).toBe(NOTIFICATION_TYPE.SUCCESS);
       expect(component.notificationMessage).toBe(mockUserType.message);
       
-      // Verificar que el formulario se resetea
       expect(component.registerForm.pristine).toBeTruthy();
       
-      // Verificar que la notificación se oculta después de 3 segundos
       tick(3000);
       expect(component.showNotification).toBeFalsy();
     }));

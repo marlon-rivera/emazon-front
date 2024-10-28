@@ -37,11 +37,11 @@ describe('ListArticlesPageComponent', () => {
   beforeEach(async () => {
     articleServiceMock = {
       getArticles: jest.fn().mockReturnValue(of(mockPaginationResponse))
-    } as any;
+    } as unknown as jest.Mocked<ArticleService>;
 
     categoryServiceMock = {
       getAllCategories: jest.fn().mockReturnValue(of(mockCategories))
-    } as any;
+    } as unknown as jest.Mocked<CategoryService>;
 
     await TestBed.configureTestingModule({
       declarations: [ListArticlesPageComponent],

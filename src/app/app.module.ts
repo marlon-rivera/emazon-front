@@ -3,7 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { CommonModule } from "@angular/common";
-import { TokenInterceptor } from "./modules/auth/interceptors/token.interceptor";
+import { TokenInterceptor } from "./shared/auth/interceptors/token.interceptor";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { UiModule } from "./ui/ui.module";
 

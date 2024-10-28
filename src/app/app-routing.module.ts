@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { LayoutComponent } from "./ui/templates/layout/layout.component";
 import { TYPE_USER_WAREHOUSE_ASSISTANT } from "./shared/utils/api.constants";
+import { AuthGuard } from "./shared/auth/guards/auth.guard";
+import { AdminGuard } from "./shared/auth/guards/admin.guard";
 
 const routes: Routes = [
   {
@@ -27,7 +29,8 @@ const routes: Routes = [
         loadChildren: () =>
           import(
             "src/app/pages/control-panel-pages/control-panel-pages.module"
-          ).then((m) => m.ControlPanelPagesModule)
+          ).then((m) => m.ControlPanelPagesModule),
+        canActivate: [AuthGuard, AdminGuard],
       },
       {
         path: "brands",
@@ -35,6 +38,7 @@ const routes: Routes = [
           import("src/app/pages/brand-pages/brand-pages.module").then(
             (m) => m.BrandPagesModule
           ),
+        canActivate: [AuthGuard, AdminGuard],
       },
       {
         path: "categories",
@@ -42,19 +46,24 @@ const routes: Routes = [
           import("src/app/pages/category-pages/category-pages.module").then(
             (m) => m.CategoryPagesModule
           ),
+        canActivate: [AuthGuard, AdminGuard],
       },
       {
         path: "articles",
-        loadChildren: () => import("src/app/pages/article-pages/article-pages.module").then(
-          m => m.ArticlePagesModule
-        )
+        loadChildren: () =>
+          import("src/app/pages/article-pages/article-pages.module").then(
+            (m) => m.ArticlePagesModule
+          ),
+        canActivate: [AuthGuard],
       },
       {
         path: "warehouse-assistant",
-        loadChildren: () => import('src/app/pages/warehouse-assistant-pages/warehouse-assistant-pages.module').then(
-          m => m.WarehouseAssistantPagesModule
-        )
-      }
+        loadChildren: () =>
+          import(
+            "src/app/pages/warehouse-assistant-pages/warehouse-assistant-pages.module"
+          ).then((m) => m.WarehouseAssistantPagesModule),
+        canActivate: [AuthGuard, AdminGuard],
+      },
     ],
   },
 ];

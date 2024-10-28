@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ArticleCardComponent } from './article-card.component';
+import { Article } from '@/app/shared/interfaces/article.interface';
 
 describe('ArticleCardComponent', () => {
   let component: ArticleCardComponent;

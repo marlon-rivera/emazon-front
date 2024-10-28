@@ -18,7 +18,7 @@ describe('DynamicTableComponent', () => {
     ['Doe', 30],
   ];
 
-  const paginationInfo: PaginationInfo<any> = {
+  const paginationInfo: PaginationInfo<unknown> = {
     totalPages: 3,
     list: [],
     currentPage: 0,

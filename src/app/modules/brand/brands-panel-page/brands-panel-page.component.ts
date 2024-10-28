@@ -15,7 +15,7 @@ export class BrandsPanelPageComponent {
     {name: NAME_BRAND, sortable: true},
     {name: DESCRIPTION_BRAND, sortable: false}
   ];
-  rows!: any[];
+  rows!: (string | number | null)[][];
   paginationInfo!: PaginationInfo<Brand>;
   currentPage = INITIAL_PAGE;
   maxVisiblePages = MAX_VISIBLE_PAGES;

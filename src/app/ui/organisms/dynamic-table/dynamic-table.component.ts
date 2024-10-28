@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class DynamicTableComponent{
   @Input() headers!: { name: string; sortable: boolean }[];
-  @Input() rows!: any[];
+  @Input() rows!: (string | number | null)[][];
   @Input() currentSortOrder!: { [key: string]: string };
   @Input() currentPage!: number;
   @Input() totalPages!: number;

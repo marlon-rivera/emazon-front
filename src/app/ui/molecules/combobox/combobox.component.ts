@@ -20,7 +20,7 @@ export class ComboboxComponent implements OnInit {
   isFocused: boolean = false;
   optionsWidth: number = 0;
   optionsTop: number = 0;
-  closeTimeout: any;
+  closeTimeout: ReturnType<typeof setTimeout> | null = null;;
 
   ngOnInit() {
     this.filteredOptions = this.options;

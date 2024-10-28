@@ -1,0 +1,24 @@
+@import "src/variables.scss";
+
+.login {
+  background-color: rgba($purple, 0.3);
+  width: 20vw;
+  padding: 30px;
+  border-radius: 8px;
+  margin: 20px;
+  
+  &__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media (max-width: $tablet) {
+    width: 40vw;
+  }
+
+  @media (max-width: $phone) {
+    width: 65vw;
+  }
+
+}

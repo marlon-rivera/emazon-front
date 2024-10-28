@@ -28,15 +28,15 @@ describe("CreateArticleComponent", () => {
   beforeEach(async () => {
     articleService = {
       createArticle: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<ArticleService>;
 
     categoryService = {
       getAllCategories: jest.fn().mockReturnValue(of(mockCategories)),
-    } as any;
+    } as unknown as jest.Mocked<CategoryService>;
 
     brandService = {
       getAllBrands: jest.fn().mockReturnValue(of(mockBrands)),
-    } as any;
+    } as unknown as jest.Mocked<BrandService>;
 
     await TestBed.configureTestingModule({
       declarations: [CreateArticleComponent],

@@ -1,13 +1,9 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
-  SIZE_PHONE,
-  SIZE_HEIGHT_LOGO_DESKTOP_HEADER,
-  SIZE_HEIGHT_LOGO_PHONE_HEADER,
-  SIZE_WIDTH_LOGO_DESKTOP_HEADER,
-  SIZE_WIDTH_LOGO_PHONE_HEADER,
   EMPTY
 } from "@/app/shared/utils/api.constants";
 import { AuthService } from "@/app/shared/services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-header",
@@ -17,31 +13,21 @@ import { AuthService } from "@/app/shared/services/auth.service";
 export class HeaderComponent implements OnInit {
   sizeHeightLogo!: number;
   sizeWidthtLogo!: number;
-  isMobile: boolean = false;
   productSearched: string = EMPTY;
   isLogged: boolean = false;
+  username: string | undefined = '';
 
-  constructor(readonly authService: AuthService) {}
-
-  @HostListener("window:resize", ["$event"])
-  onResize() {
-    this.isMobile = window.innerWidth < SIZE_PHONE;
-    if (this.isMobile) {
-      this.sizeHeightLogo = SIZE_HEIGHT_LOGO_PHONE_HEADER;
-      this.sizeWidthtLogo = SIZE_WIDTH_LOGO_PHONE_HEADER;
-    } else {
-      this.sizeHeightLogo = SIZE_HEIGHT_LOGO_DESKTOP_HEADER;
-      this.sizeWidthtLogo = SIZE_WIDTH_LOGO_DESKTOP_HEADER;
-    }
-  }
+  constructor(readonly authService: AuthService, readonly router: Router) {}
 
   ngOnInit() {
-    this.onResize();
     this.authService.isLoggedIn.subscribe(loggedIn => {
       this.isLogged = loggedIn;
+      this.username = this.authService.infoToken!.name;
     });
-
-    this.isLogged = this.authService.checkAuthentication();
   }
 
+  logout() : void {
+    this.authService.logout();
+    this.router.navigate(["/"])
+  }
 }

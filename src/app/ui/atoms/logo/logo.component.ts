@@ -7,7 +7,4 @@ import { Component, Input } from '@angular/core';
 })
 export class LogoComponent{
 
-  @Input() width!: number;
-  @Input() height!: number;
-
 }
