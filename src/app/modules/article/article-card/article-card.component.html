@@ -6,8 +6,12 @@
   <div class="card__body">
     <p class="card__description">{{ article.description }}</p>
   </div>
+  <div class="card__body"></div>
   <div class="card__footer">
-    <ng-container *ngIf="article?.categories && article.categories.length > 0">
+    <div
+      class="card__categories"
+      *ngIf="article?.categories && article.categories.length > 0"
+    >
       <strong class="card__categories-label">Categorías:</strong>
       <ng-container *ngFor="let category of article.categories; let i = index">
         <span *ngIf="i < 3" class="card__category">
@@ -19,7 +23,10 @@
           </span>
         </span>
       </ng-container>
-    </ng-container>
+    </div>
+    <p class="card__price">Precio: ${{ article.price }}</p>
+
+    <p class="card__quantity">Disponible: {{ article.quantity }}</p>
   </div>
   <app-button buttonText="Añadir"></app-button>
 </div>

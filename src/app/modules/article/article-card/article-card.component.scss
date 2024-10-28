@@ -5,7 +5,7 @@
   padding: 16px;
   box-shadow: 0 2px 5px $purple;
   width: 200px;
-  height: 290px;
+  height: 350px;
   margin: auto 0;
 
   &__header {
@@ -38,9 +38,13 @@
     height: 80px;
   }
 
+  &__categories{
+    height: 50px;
+  }
+
   &__footer {
     font-size: 0.9em;
-    height: 45px;
+    height: 100px;
     color: #888;
   }
 
@@ -57,6 +61,14 @@
       height: 30px;  
     
     }
+  }
+
+  &__price{
+    margin: 0;
+  }
+
+  &__quantity{
+    margin: 0;
   }
 
   &__category-separator {
