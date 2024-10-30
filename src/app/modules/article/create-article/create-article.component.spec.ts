@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { CreateArticleComponent } from "./create-article.component";
 import { ArticleService } from "@/app/shared/services/article.service";
@@ -7,6 +7,7 @@ import { BrandService } from "@/app/shared/services/brand.service";
 import { NOTIFICATION_TYPE } from "@/app/shared/utils/api.constants";
 import { of, throwError } from "rxjs";
 import { UiModule } from "@/app/ui/ui.module";
+import { Router } from "@angular/router";
 
 describe("CreateArticleComponent", () => {
   let component: CreateArticleComponent;
@@ -14,6 +15,7 @@ describe("CreateArticleComponent", () => {
   let articleService: jest.Mocked<ArticleService>;
   let categoryService: jest.Mocked<CategoryService>;
   let brandService: jest.Mocked<BrandService>;
+  let routerMock: jest.Mocked<Router>;
 
   const mockCategories = [
     { id: 1, name: "Category 1" },
@@ -38,6 +40,10 @@ describe("CreateArticleComponent", () => {
       getAllBrands: jest.fn().mockReturnValue(of(mockBrands)),
     } as unknown as jest.Mocked<BrandService>;
 
+    routerMock = {
+      navigate: jest.fn(),
+    } as unknown as jest.Mocked<Router>;
+
     await TestBed.configureTestingModule({
       declarations: [CreateArticleComponent],
       imports: [ReactiveFormsModule, UiModule],
@@ -46,6 +52,7 @@ describe("CreateArticleComponent", () => {
         { provide: ArticleService, useValue: articleService },
         { provide: CategoryService, useValue: categoryService },
         { provide: BrandService, useValue: brandService },
+        { provide: Router, useValue: routerMock}
       ],
     }).compileComponents();
 
@@ -232,7 +239,7 @@ describe("CreateArticleComponent", () => {
         expect(component.notificationMessage).toBe("Artículo creado con éxito");
       });
 
-      it("should show error notification when creation fails", () => {
+      it("should show error notification when creation fails", fakeAsync(() => {
         const errorMessage = "Error creating article";
         articleService.createArticle.mockReturnValue(
           throwError(() => ({ error: { message: errorMessage } }))
@@ -243,7 +250,11 @@ describe("CreateArticleComponent", () => {
         expect(component.showNotification).toBeTruthy();
         expect(component.notificationType).toBe(NOTIFICATION_TYPE.ERROR);
         expect(component.notificationMessage).toBe(errorMessage);
-      });
+        
+        tick(3000)
+
+        expect(component.showNotification).toBeFalsy();
+      }));
     });
   });
 
@@ -288,6 +299,13 @@ describe("CreateArticleComponent", () => {
         const categoriesArray = component.articleForm.get("categories");
         expect(categoriesArray?.errors).toBeNull();
       });
+    });
+  });
+
+  describe("handleClickListArticles", () => {
+    it("should navigate to /articles/list when is clicked", () => {
+      component.handleClickListArticles();
+      expect(routerMock.navigate).toHaveBeenCalledWith(["/articles/list"]);
     });
   });
 });

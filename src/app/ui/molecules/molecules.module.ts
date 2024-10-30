@@ -4,17 +4,17 @@ import { ComboboxComponent } from "./combobox/combobox.component";
 import { ComboboxMultipleComponent } from "./combobox-multiple/combobox-multiple.component";
 import { FormFieldComponent } from "./form-field/form-field.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { LabelComponent } from "../atoms/label/label.component";
-import { InputFieldComponent } from "../atoms/input-field/input-field.component";
 import { AtomsModule } from "../atoms/atoms.module";
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     ComboboxMultipleComponent,
     FormFieldComponent,
     ComboboxComponent,
+    ModalComponent,
   ],
   imports: [CommonModule, ReactiveFormsModule, AtomsModule],
-  exports: [ComboboxMultipleComponent, FormFieldComponent, ComboboxComponent],
+  exports: [ComboboxMultipleComponent, FormFieldComponent, ComboboxComponent, ModalComponent],
 })
 export class MoleculesModule {}

@@ -6,7 +6,6 @@ import { ControlPanelModule } from '../control-panel.module';
 describe('ControlPanelPageComponent', () => {
   let component: ControlPanelPageComponent;
   let fixture: ComponentFixture<ControlPanelPageComponent>;
-  let router: Router;
 
   const mockRouter = {
     navigate: jest.fn(),
@@ -24,7 +23,6 @@ describe('ControlPanelPageComponent', () => {
 
     fixture = TestBed.createComponent(ControlPanelPageComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -50,6 +48,10 @@ describe('ControlPanelPageComponent', () => {
     it('should navigate to articles when handleClickArticles is called', () => {
       component.handleClickArticles();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/articles']);
+    });
+    it('should navigate to articles when handleClickWarehouseAssistant is called', () => {
+      component.handleClickWarehouseAssistant();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/warehouse-assistant']);
     });
   });
 });

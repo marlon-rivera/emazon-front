@@ -9,10 +9,15 @@ import {
   INITIAL_PAGE,
   MAX_VISIBLE_PAGES,
   SIZE_PAGE,
+  EMPTY,
+  NOTIFICATION_TYPE,
+  NotificationType
 } from "@/app/shared/utils/api.constants";
 import { Category } from "@/app/shared/interfaces/category.interface";
 import { CategoryService } from "@/app/shared/services/category.service";
-import { FormBuilder, FormControl } from "@angular/forms";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
+import { SupplyService } from "@/app/shared/services/supply.service";
+import { AddSuply } from "@/app/shared/interfaces/supply.interface";
 
 @Component({
   selector: "app-list-articles-page",
@@ -39,10 +44,21 @@ export class ListArticlesPageComponent implements OnInit {
   order = ASC_ORDER;
   orderControl!: FormControl;
   criteriaControl!: FormControl;
+  showModal: boolean = false;
+  selectedArticle!: Article | null;
+  quantityToAdd: FormControl = new FormControl(0, [
+    Validators.required,
+    Validators.min(1),
+    Validators.pattern("^[0-9]*$"),
+  ]);
+  notificationMessage: string = EMPTY;
+  notificationType: NotificationType = NOTIFICATION_TYPE.SUCCESS;
+  showNotification: boolean = false;
 
   constructor(
     readonly articleService: ArticleService,
     readonly caetgoryService: CategoryService,
+    readonly supplyService: SupplyService,
     readonly builder: FormBuilder
   ) {}
 
@@ -57,25 +73,21 @@ export class ListArticlesPageComponent implements OnInit {
       }));
     });
 
-    this.checkIfMobile();
   }
 
   toggleCategories(): void {
     this.isCategoriesVisible = !this.isCategoriesVisible;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkIfMobile();
-  }
-
-  checkIfMobile(): void {
-    this.isMobile = window.innerWidth <= 768;
-  }
-
   getArticles(): void {
     this.articleService
-      .getArticles(this.currentPage, SIZE_PAGE, this.categoriesSelected, this.orderControl.value, this.criteriaControl.value)
+      .getArticles(
+        this.currentPage,
+        SIZE_PAGE,
+        this.categoriesSelected,
+        this.orderControl.value,
+        this.criteriaControl.value
+      )
       .subscribe((response) => {
         this.articles = response.paginationInfo.list;
         this.paginationInfo = response.paginationInfo;
@@ -94,20 +106,22 @@ export class ListArticlesPageComponent implements OnInit {
     if (checkbox.checked) {
       this.categoriesSelected.push(Number(checkbox.value));
     } else {
-      this.categoriesSelected = this.categoriesSelected.filter(c => c !== Number(checkbox.value))
+      this.categoriesSelected = this.categoriesSelected.filter(
+        (c) => c !== Number(checkbox.value)
+      );
     }
     this.getArticles();
   }
 
-  onChangeOrder(event: Option | null): void{
-    if(event){
-      this.orderControl.setValue(event.name)
+  onChangeOrder(event: Option | null): void {
+    if (event) {
+      this.orderControl.setValue(event.name);
     }
   }
 
-  onChangeCriteria(event: Option | null): void{
-    if(event){
-      this.criteriaControl.setValue(event.name)
+  onChangeCriteria(event: Option | null): void {
+    if (event) {
+      this.criteriaControl.setValue(event.name);
     }
   }
 
@@ -147,5 +161,50 @@ export class ListArticlesPageComponent implements OnInit {
     }
 
     return visiblePages;
+  }
+
+  onOpenModal(event: Article) {
+    this.selectedArticle = event;
+    this.showModal = true;
+  }
+
+  onCloseModal(): void {
+    this.showModal = false;
+    this.quantityToAdd.setValue(0);
+    this.selectedArticle = null;
+  }
+
+  onChangeQuantityToAdd(event: string): void {
+    this.quantityToAdd.setValue(event);
+  }
+
+  onSumbitQuantityToAdd(): void {
+    if(this.quantityToAdd.valid){
+      const addSupply: AddSuply = {
+        idArticle: this.selectedArticle!.id,
+        quantity: this.quantityToAdd.value
+      }
+      this.supplyService.addSupply(addSupply).subscribe({
+        next: () => {
+          this.showNotification = true;
+          this.notificationMessage = "Suministro agregado correctamente.";
+          this.notificationType = NOTIFICATION_TYPE.SUCCESS;
+          this.quantityToAdd.reset();
+          this.autoHideNotification();
+          this.getArticles();
+        },
+        error: (err) => {
+          this.showNotification = true;
+          this.notificationMessage = err.error.message;
+          this.notificationType = NOTIFICATION_TYPE.ERROR;
+        }
+      })
+    }
+  }
+
+  private autoHideNotification() {
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
   }
 }

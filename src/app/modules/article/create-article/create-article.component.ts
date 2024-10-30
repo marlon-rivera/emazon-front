@@ -157,6 +157,7 @@ export class CreateArticleComponent implements OnInit {
           this.showNotification = true;
           this.notificationMessage = err.error.message;
           this.notificationType = NOTIFICATION_TYPE.ERROR;
+          this.autoHideNotification();
         }}
       )
     }
@@ -166,7 +167,7 @@ export class CreateArticleComponent implements OnInit {
     this.router.navigate(["/articles/list"])
   }
 
-  private autoHideNotification() {
+  autoHideNotification() {
     setTimeout(() => {
       this.showNotification = false;
     }, 3000);

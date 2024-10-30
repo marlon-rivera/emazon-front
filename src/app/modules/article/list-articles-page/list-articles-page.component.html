@@ -26,7 +26,10 @@
       ></app-combobox>
     </div>
     <div>
-      <app-button (buttonClick)="getArticles()" buttonText="Buscar"></app-button>
+      <app-button
+        (buttonClick)="getArticles()"
+        buttonText="Buscar"
+      ></app-button>
     </div>
   </div>
   <div class="list-articles-page__content">
@@ -74,6 +77,7 @@
         <app-article-card
           *ngFor="let article of articles"
           [article]="article"
+          (openModal)="onOpenModal(article)"
         ></app-article-card>
       </div>
       <div
@@ -122,3 +126,31 @@
     </section>
   </div>
 </div>
+<app-modal *ngIf="showModal" (close)="onCloseModal()">
+  <h2 class="app-modal__title">
+    Añadir <span class="highlight">unidades</span>
+  </h2>
+  <p class="app-modal__text">
+    El articulo seleccionado es:
+    <span class="highlight">{{ selectedArticle!.name }}</span>
+  </p>
+  <app-form-field
+    [fieldId]="'quantity'"
+    [fieldName]="'quantity'"
+    [labelText]="'Unidades a añadir'"
+    type="number"
+    [inputValue]="quantityToAdd.value"
+    (inputValueChange)="onChangeQuantityToAdd($event)"
+  ></app-form-field>
+  <app-button
+    [disabledButton]="quantityToAdd.invalid"
+    (buttonClick)="onSumbitQuantityToAdd()"
+    [buttonText]="'Añadir'"
+  ></app-button>
+</app-modal>
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

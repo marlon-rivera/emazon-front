@@ -75,4 +75,27 @@
     margin-right: 4px;
     color: #888;
   }
+
+  &__buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__add{
+    background-color: red;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    cursor: pointer;
+
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+
+
 }
