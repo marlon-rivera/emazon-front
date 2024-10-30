@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  EMPTY
-} from "@/app/shared/utils/api.constants";
+import { EMPTY } from "@/app/shared/utils/api.constants";
 import { AuthService } from "@/app/shared/services/auth.service";
 import { Router } from "@angular/router";
 
@@ -15,19 +13,21 @@ export class HeaderComponent implements OnInit {
   sizeWidthtLogo!: number;
   productSearched: string = EMPTY;
   isLogged: boolean = false;
-  username: string | undefined = '';
+  username: string | undefined = "";
 
   constructor(readonly authService: AuthService, readonly router: Router) {}
 
   ngOnInit() {
-    this.authService.isLoggedIn.subscribe(loggedIn => {
+    this.authService.isLoggedIn.subscribe((loggedIn) => {
+      if (loggedIn) {
+        this.username = this.authService.infoToken!.name;
+      }
       this.isLogged = loggedIn;
-      this.username = this.authService.infoToken!.name;
     });
   }
 
-  logout() : void {
+  logout(): void {
     this.authService.logout();
-    this.router.navigate(["/"])
+    this.router.navigate(["/"]);
   }
 }

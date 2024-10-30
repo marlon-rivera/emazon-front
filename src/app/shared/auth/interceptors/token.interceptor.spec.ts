@@ -78,6 +78,6 @@ describe('TokenInterceptor', () => {
     const req = httpMock.expectOne('/test-endpoint');
     req.flush({}, { status: 401, statusText: 'Unauthorized' });
     expect(authService.logout).toHaveBeenCalled();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/auth/login']);
   });
 });

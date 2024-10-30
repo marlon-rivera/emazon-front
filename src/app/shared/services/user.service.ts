@@ -15,4 +15,8 @@ export class UserService {
     return this.http.post<void>(`${API_URL_USER}/registerWarehouse`, request);
   }
 
+  createClient(request: CreateUser): Observable<void> {
+    return this.http.post<void>(`${API_URL_USER}/register`, request);
+  }
+
 }

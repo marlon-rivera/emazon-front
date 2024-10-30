@@ -43,7 +43,7 @@ describe("AuthGuard", () => {
     authServiceMock.isLoggedIn = of(false);
     authGuard.canActivate(route, state).subscribe((canActivate) => {
       expect(canActivate).toBe(false);
-      expect(routerMock.navigate).toHaveBeenCalledWith(["/login"]);
+      expect(routerMock.navigate).toHaveBeenCalledWith(["/auth/login"]);
       done();
     });
   });

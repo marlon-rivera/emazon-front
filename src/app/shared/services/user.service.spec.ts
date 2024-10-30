@@ -48,4 +48,26 @@ describe('UserService', () => {
       req.flush(null);
     });
   })
+
+  describe('createClient', () => {
+    it('should make a POST request to create a client', ()=>{
+      const mockClientCreate: CreateUser = {
+        id: 1,
+        name: 'Test',
+        lastName: 'Test',
+        email: 'test@test.com',
+        birthDate: new Date(2001, 0, 0),
+        password: '1234567',
+        phone: '+573000000000'
+      };
+
+      service.createClient(mockClientCreate).subscribe();
+
+      const req = httpMock.expectOne(`${API_URL_USER}/register`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(mockClientCreate);
+
+      req.flush(null);
+    });
+  })
 });

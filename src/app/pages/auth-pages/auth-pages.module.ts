@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AuthPagesRoutingModule } from './auth-pages-routing.module';
 import { LoginModule } from '@/app/modules/login/login.module';
+import { ClientModule } from '@/app/modules/client/client.module';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import { LoginModule } from '@/app/modules/login/login.module';
   imports: [
     CommonModule,
     LoginModule,
+    ClientModule,
     AuthPagesRoutingModule
   ]
 })

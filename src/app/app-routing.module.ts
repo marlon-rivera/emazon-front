@@ -18,7 +18,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: "login",
+        path: "auth",
         loadChildren: () =>
           import("src/app/pages/auth-pages/auth-pages.module").then(
             (m) => m.AuthPagesModule

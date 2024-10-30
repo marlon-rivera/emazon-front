@@ -13,6 +13,7 @@ import {
   MIN_AGE,
   MIN_LENGTH_PASSWORD,
   TYPE_USER_WAREHOUSE_ASSISTANT,
+  TYPE_USER_CLIENT,
 } from "@/app/shared/utils/api.constants";
 import { UserService } from "@/app/shared/services/user.service";
 import { Observable } from "rxjs";
@@ -29,10 +30,7 @@ export class CreateUserComponent implements OnInit {
   notificationType: NotificationType = NOTIFICATION_TYPE.SUCCESS;
   showNotification: boolean = false;
 
-  constructor(
-    readonly fb: FormBuilder,
-    readonly userService: UserService,
-  ) {}
+  constructor(readonly fb: FormBuilder, readonly userService: UserService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -94,6 +92,9 @@ export class CreateUserComponent implements OnInit {
         request = this.userService.createWarehouseAssistant(
           this.registerForm.value
         );
+      }
+      if (this.userType.type === TYPE_USER_CLIENT) {
+        request = this.userService.createClient(this.registerForm.value);
       }
       request!.subscribe({
         next: () => {
