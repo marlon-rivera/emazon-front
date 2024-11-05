@@ -31,14 +31,14 @@
         buttonText="Buscar"
       ></app-button>
     </div>
-  </div>
-  <div class="list-articles-page__content">
     <app-button
+      class="list-articles-page__filter"
       buttonText="Filtrar pot categorias"
       (buttonClick)="toggleCategories()"
-      *ngIf="isMobile"
     >
     </app-button>
+  </div>
+  <div class="list-articles-page__content">
 
     <div>
       <aside

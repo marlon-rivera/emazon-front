@@ -29,13 +29,17 @@
     <p class="card__quantity">Disponible: {{ article.quantity }}</p>
   </div>
   <div class="card__buttons">
-    <app-button buttonText="Añadir"></app-button>
-    <button class="card__add" *ngIf="warehouseAssistant" (click)="onOpenModal()">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+    <app-button
+      buttonText="Añadir"
+      (buttonClick)="onOpenModalAddToCart()"
+      *ngIf="client"
+    ></app-button>
+    <button
+      class="card__add"
+      *ngIf="warehouseAssistant"
+      (click)="onOpenModal()"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g
           id="SVGRepo_tracerCarrier"
@@ -58,3 +62,35 @@
     </button>
   </div>
 </div>
+<app-modal *ngIf="showModalAddCart" (close)="onCloseModalAddToCart()">
+  <h2 class="app-modal__title">
+    Añadir al <span class="highlight">Carrito</span>
+  </h2>
+  <p class="app-modal__text">
+    El articulo seleccionado es:
+    <span class="highlight">{{ article!.name }}</span>
+  </p>
+  <p class="app-modal__text">
+    Unidades disponibles:
+    <span class="highlight">{{ article!.quantity }}</span>
+  </p>
+  <app-form-field
+    [fieldId]="'quantity'"
+    [fieldName]="'quantity'"
+    [labelText]="'Unidades a añadir'"
+    type="number"
+    [inputValue]="quantityToAdd.value"
+    (inputValueChange)="onChangeQuantityToAdd($event)"
+  ></app-form-field>
+  <app-button
+    [disabledButton]="quantityToAdd.invalid"
+    (buttonClick)="onSumbitArticleToAddShoppingCart()"
+    [buttonText]="'Añadir'"
+  ></app-button>
+</app-modal>
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

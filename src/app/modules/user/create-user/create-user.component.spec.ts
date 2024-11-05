@@ -36,6 +36,7 @@ describe("CreateUserComponent", () => {
   beforeEach(async () => {
     userService = {
       createWarehouseAssistant: jest.fn(),
+      createClient: jest.fn()
     } as unknown as jest.Mocked<UserService>;
 
     await TestBed.configureTestingModule({
@@ -175,7 +176,7 @@ describe("CreateUserComponent", () => {
     }));
 
     it("should call createClient on valid form submission", fakeAsync(() => {
-      userService.createWarehouseAssistant.mockReturnValue(of(void 0));
+      userService.createClient.mockReturnValue(of(void 0));
 
       Object.keys(mockValidUser).forEach((key) => {
         component.registerForm
@@ -185,7 +186,7 @@ describe("CreateUserComponent", () => {
 
       component.userType = {
         type: "client",
-        message: "Usuario creado correctamente.",
+        message: "Usuario creado exitosamente",
       };
       component.onSubmit();
       tick();

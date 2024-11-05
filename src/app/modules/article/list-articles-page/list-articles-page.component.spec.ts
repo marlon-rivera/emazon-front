@@ -315,7 +315,7 @@ describe("ListArticlesPageComponent", () => {
       expect(component.notificationType).toBe("error");
 
       tick(3000);
-      expect(component.showNotification).toBeTruthy();
+      expect(component.showNotification).toBeFalsy();
     }));
   });
 

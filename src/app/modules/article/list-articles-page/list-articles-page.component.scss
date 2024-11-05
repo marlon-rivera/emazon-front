@@ -23,6 +23,12 @@
     width: 50%;
   }
 
+  &__filter{
+    display: none;
+    @media (max-width: $phone) {
+      display: block;
+    }
+  }
 
   &__content {
     width: 100vw;

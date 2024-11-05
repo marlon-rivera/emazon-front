@@ -19,6 +19,7 @@ export const API_URL_BRAND: string = "http://localhost:8082/brand";
 export const API_URL_ARTICLE: string = "http://localhost:8082/article";
 export const API_URL_USER: string = "http://localhost:8081/user";
 export const API_URL_SUPPLY: string = "http://localhost:8083/supply";
+export const API_URL_SHOPPING_CART: string = "http://localhost:8084/shopping-cart";
 export const ASC_ORDER: string = "ASC";
 export const DESC_ORDER: string = "DESC";
 export const SIZE_PAGE: number = 10;

@@ -11,7 +11,7 @@ import {
   SIZE_PAGE,
   EMPTY,
   NOTIFICATION_TYPE,
-  NotificationType
+  NotificationType,
 } from "@/app/shared/utils/api.constants";
 import { Category } from "@/app/shared/interfaces/category.interface";
 import { CategoryService } from "@/app/shared/services/category.service";
@@ -72,7 +72,6 @@ export class ListArticlesPageComponent implements OnInit {
         name: category.name,
       }));
     });
-
   }
 
   toggleCategories(): void {
@@ -179,11 +178,11 @@ export class ListArticlesPageComponent implements OnInit {
   }
 
   onSumbitQuantityToAdd(): void {
-    if(this.quantityToAdd.valid){
+    if (this.quantityToAdd.valid) {
       const addSupply: AddSuply = {
         idArticle: this.selectedArticle!.id,
-        quantity: this.quantityToAdd.value
-      }
+        quantity: this.quantityToAdd.value,
+      };
       this.supplyService.addSupply(addSupply).subscribe({
         next: () => {
           this.showNotification = true;
@@ -197,8 +196,9 @@ export class ListArticlesPageComponent implements OnInit {
           this.showNotification = true;
           this.notificationMessage = err.error.message;
           this.notificationType = NOTIFICATION_TYPE.ERROR;
-        }
-      })
+          this.autoHideNotification();
+        },
+      });
     }
   }
 
