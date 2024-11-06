@@ -1,5 +1,5 @@
 <div class="brands-panel">
-    <div class="brands-panel__form">
+    <div class="brands-panel__form" *ngIf="this.authService.infoToken!.role === 'ADMIN'">
         <app-create-brand></app-create-brand>
     </div>
     <div class="brands-panel__table">

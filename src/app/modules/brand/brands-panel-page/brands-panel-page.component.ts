@@ -3,6 +3,7 @@ import { Brand } from '@/app/shared/interfaces/brandinterface';
 import { PaginationInfo } from '@/app/shared/interfaces/pagination-info.interface';
 import { BrandService } from '@/app/shared/services/brand.service';
 import { Component } from '@angular/core';
+import { AuthService } from '@/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-brands-panel-page',
@@ -21,7 +22,7 @@ export class BrandsPanelPageComponent {
   maxVisiblePages = MAX_VISIBLE_PAGES;
   currentSortOrder: {[key: string]: string} = {[NAME_BRAND]: ASC_ORDER};
 
-  constructor(readonly brandService: BrandService) { };
+  constructor(readonly brandService: BrandService, readonly authService: AuthService) { };
 
   ngOnInit(): void {
     this.getBrands(this.currentPage);

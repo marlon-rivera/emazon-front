@@ -13,6 +13,7 @@ import {
   NAME_CATEGORY,
   SIZE_PAGE,
 } from "@/app/shared/utils/api.constants";
+import { AuthService } from "@/app/shared/services/auth.service";
 @Component({
   selector: 'app-categories-panel-page',
   templateUrl: './categories-panel-page.component.html',
@@ -29,7 +30,7 @@ export class CategoriesPanelPageComponent {
   maxVisiblePages = MAX_VISIBLE_PAGES;
   currentSortOrder: { [key: string]: string } = { [NAME_CATEGORY]: ASC_ORDER };
 
-  constructor(readonly categoryService: CategoryService) {}
+  constructor(readonly categoryService: CategoryService, readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.getCategories(this.currentPage);

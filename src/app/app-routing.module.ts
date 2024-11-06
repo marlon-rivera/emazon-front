@@ -38,7 +38,7 @@ const routes: Routes = [
           import("src/app/pages/brand-pages/brand-pages.module").then(
             (m) => m.BrandPagesModule
           ),
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: "categories",
@@ -46,7 +46,7 @@ const routes: Routes = [
           import("src/app/pages/category-pages/category-pages.module").then(
             (m) => m.CategoryPagesModule
           ),
-        canActivate: [AuthGuard, AdminGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: "articles",
