@@ -14,6 +14,7 @@ import {
   NAME_BRAND,
   SIZE_PAGE,
 } from "@/app/shared/utils/api.constants";
+import { HttpClientModule } from "@angular/common/http";
 
 describe("BrandsPanelPageComponent", () => {
   let component: BrandsPanelPageComponent;
@@ -27,6 +28,7 @@ describe("BrandsPanelPageComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [BrandsPanelPageComponent],
+      imports: [HttpClientModule],
       providers: [{ provide: BrandService, useValue: brandService }],
     }).compileComponents();
 

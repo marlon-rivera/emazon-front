@@ -75,7 +75,7 @@ export class ArticleCardComponent implements OnInit {
             this.autoHideNotification();
           },
           error: (err) => {
-            console.log(err)
+            
             this.notificationMessage = err.error.message;
             this.notificationType = NOTIFICATION_TYPE.ERROR;
             this.showNotification = true;

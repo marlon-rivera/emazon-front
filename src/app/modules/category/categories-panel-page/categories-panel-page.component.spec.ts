@@ -7,6 +7,8 @@ import { Category } from "@/app/shared/interfaces/category.interface";
 import { SIZE_PAGE, ASC_ORDER, DESC_ORDER, NAME_CATEGORY, NAME_BRAND } from "@/app/shared/utils/api.constants";
 import { UiModule } from "@/app/ui/ui.module";
 import { CategoryModule } from "../category.module";
+import { HttpTestingController } from "@angular/common/http/testing";
+import { HttpClientModule } from "@angular/common/http";
 
 describe("CategoriesPanelPageComponent", () => {
   let component: CategoriesPanelPageComponent;
@@ -20,7 +22,7 @@ describe("CategoriesPanelPageComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [CategoriesPanelPageComponent],
-      imports: [CategoryModule],
+      imports: [CategoryModule, HttpClientModule],
       providers: [{ provide: CategoryService, useValue: categoryService }],
     }).compileComponents();
 

@@ -64,6 +64,14 @@ const routes: Routes = [
           ).then((m) => m.WarehouseAssistantPagesModule),
         canActivate: [AuthGuard, AdminGuard],
       },
+      {
+        path: "shopping-cart",
+        loadChildren: () =>
+          import(
+            "src/app/pages/shopping-cart-pages/shopping-cart-pages.module"
+          ).then((m) => m.ShoppingCartPagesModule),
+          canActivate: [AuthGuard]
+      },
     ],
   },
 ];
