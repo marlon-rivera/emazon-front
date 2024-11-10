@@ -10,7 +10,14 @@
     buttonText="Filtrar por marcas"
     (buttonClick)="toggleBrands()"
   ></app-button>
-
+  <div>
+    <app-button [buttonText]="order" (buttonClick)="changeOrder()"></app-button>
+    <p
+      class="cart__item-category"
+      *ngIf="articlesShoppingCart.modificationDate"
+    >
+      Ultima fecha de modificación: {{ articlesShoppingCart.modificationDate }}
+    </p>
     <aside
       class="list-articles-page__categories"
       [ngClass]="{
@@ -25,7 +32,23 @@
         (buttonClick)="toggleCategories()"
         buttonText="Ocultar filtro"
       ></app-button>
-
+      Seleccionadas:
+      <div class="list-articles-page__categories--selected">
+        <p
+          class="cart__item-category"
+          *ngFor="let category of categoriesSelected"
+        >
+          {{ category.name }}
+          <button
+            class="remove-btn"
+            [attr.data-id]="category.id"
+            [attr.data-name]="category.name"
+            (click)="onCategorySelected($event)"
+          >
+           x
+          </button>
+        </p>
+      </div>
       <div class="list-articles-page__checkbox-group">
         <label
           *ngFor="let category of categories"
@@ -34,91 +57,15 @@
           <input
             type="checkbox"
             class="list-articles-page__checkbox-input"
-            [value]="category.id"
+            [attr.data-id]="category.id"
+            [attr.data-name]="category.name"
+            [id]="'C' + category.id"
             (change)="onCategorySelected($event)"
           />
           {{ category.name }}
         </label>
       </div>
     </aside>
-    <div class="cart">
-      <app-button
-        [buttonText]="order"
-        (buttonClick)="changeOrder()"
-      ></app-button>
-      <div *ngFor="let article of articlesShoppingCart.articles.list">
-        <div class="cart__item">
-          <div class="cart__item-info">
-            <h3 class="cart__item-name">{{ article.name }}</h3>
-            <p class="cart__item-category">
-              Disponible
-              <span *ngIf="article.quantity > 0; else showDate"
-                >: {{ article.quantity }}</span
-              >
-              <ng-template #showDate
-                >en:
-                {{ article.deliveryDate | date : "dd/MM/yyyy" }}</ng-template
-              >
-            </p>
-          </div>
-          <div class="cart__item-controls">
-            <div class="cart__item-quantity">
-              <app-button buttonText="-" (buttonClick)="decreaseQuantity(article.id)"></app-button>
-              <app-input-field
-                type="number"
-                [value]="toString(article.quantityRequired)"
-                (valueChange)="quantityChange(article.id, $event)"
-              ></app-input-field>
-              <app-button buttonText="+" (buttonClick)="increaseQuantity(article.id)"></app-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p><span class="highlight"> Total:</span> {{ articlesShoppingCart.totalPrice | currency:'USD':'symbol':'1.2-2' }}</p>
-      <div
-        class="list-articles-page__pagination"
-        *ngIf="this.articlesShoppingCart.articles.totalPages > 1"
-      >
-        <a
-          href="javascript:void(0)"
-          (click)="changePage(currentPage - 1)"
-          [class.table__pagination-arrow--disabled]="currentPage === 0"
-          class="list-articles-page__pagination-arrow"
-        >
-          &lt;
-        </a>
-
-        <span *ngFor="let page of getVisiblePages(); let i = index">
-          <ng-container *ngIf="page === -1">
-            <ng-template #ellipsis>...</ng-template>
-            <ng-container *ngTemplateOutlet="ellipsis"></ng-container>
-          </ng-container>
-
-          <a
-            *ngIf="page !== -1"
-            href="javascript:void(0)"
-            (click)="changePage(page)"
-            [class.list-articles-page__pagination-number--active]="
-              currentPage === page
-            "
-            class="list-articles-page__pagination-number"
-          >
-            {{ page + 1 }}
-          </a>
-        </span>
-
-        <a
-          href="javascript:void(0)"
-          (click)="changePage(currentPage + 1)"
-          [class.table__pagination-arrow--disabled]="
-            currentPage === this.articlesShoppingCart.articles.totalPages - 1
-          "
-          class="list-articles-page__pagination-arrow"
-        >
-          &gt;
-        </a>
-      </div>
-    </div>
     <aside
       class="list-articles-page__categories"
       [ngClass]="{
@@ -133,6 +80,24 @@
         (buttonClick)="toggleBrands()"
         buttonText="Ocultar filtro"
       ></app-button>
+      Seleccionadas:
+      <div class="list-articles-page__categories--selected">
+        <p
+          class="cart__item-category"
+          *ngFor="let brand of brandsSelected"
+        >
+          {{ brand.name }}
+          <button
+            class="remove-btn"
+            [attr.data-id]="brand.id"
+            [attr.data-name]="brand.name"
+            (click)="onBrandSelected($event)"
+          >
+           x
+          </button>
+        </p>
+      </div>
+
       <div class="list-articles-page__checkbox-group">
         <label
           *ngFor="let brand of brands"
@@ -141,11 +106,122 @@
           <input
             type="checkbox"
             class="list-articles-page__checkbox-input"
-            [value]="brand.id"
+            [attr.data-id]="brand.id"
+            [attr.data-name]="brand.name"
+            [id]="'B' + brand.id"
             (change)="onBrandSelected($event)"
           />
           {{ brand.name }}
         </label>
       </div>
     </aside>
+  </div>
+  <div class="cart">
+    
+    
+    <div
+      *ngFor="let article of articlesShoppingCart.articles.list"
+      class="cart__item"
+    >
+      <div>
+        <div class="cart__item-info">
+          <h3 class="cart__item-name">{{ article.name }}</h3>
+          <p class="cart__item-category">
+            Disponible
+            <span *ngIf="article.quantity > 0; else showDate"
+              >: {{ article.quantity }}</span
+            >
+            <ng-template #showDate
+              >en: {{ article.deliveryDate | date : "dd/MM/yyyy" }}</ng-template
+            >
+          </p>
+          <p class="cart__item-category">Marca: {{ article.brand.name }}</p>
+          <p class="cart__item-category">
+            Categorías:
+            <span *ngFor="let category of article.categories"
+              >{{ category.name }}
+            </span>
+          </p>
+          <p class="cart__item-category">Precio: {{ article.price }}</p>
+        </div>
+        <div class="cart__item-controls">
+          <div class="cart__item-quantity">
+            <app-button
+              buttonText="-"
+              (buttonClick)="decreaseQuantity(article.id)"
+            ></app-button>
+            <app-input-field
+              type="number"
+              [value]="toString(article.quantityRequired)"
+              (valueChange)="quantityChange(article.id, $event)"
+            ></app-input-field>
+            <app-button
+              buttonText="+"
+              (buttonClick)="increaseQuantity(article.id)"
+            ></app-button>
+          </div>
+        </div>
+      </div>
+      <app-button
+        buttonText="Eliminar"
+        (buttonClick)="deleteArticle(article.id)"
+      ></app-button>
+    </div>
+    <p>
+      <span class="highlight"> Total:</span>
+      {{
+        articlesShoppingCart.totalPrice | currency : "USD" : "symbol" : "1.2-2"
+      }}
+    </p>
+    <div
+      class="list-articles-page__pagination"
+      *ngIf="this.articlesShoppingCart.articles.totalPages > 1"
+    >
+      <a
+        href="javascript:void(0)"
+        (click)="changePage(currentPage - 1)"
+        [class.table__pagination-arrow--disabled]="currentPage === 0"
+        class="list-articles-page__pagination-arrow"
+      >
+        &lt;
+      </a>
+
+      <span *ngFor="let page of getVisiblePages(); let i = index">
+        <ng-container *ngIf="page === -1">
+          <ng-template #ellipsis>...</ng-template>
+          <ng-container *ngTemplateOutlet="ellipsis"></ng-container>
+        </ng-container>
+
+        <a
+          *ngIf="page !== -1"
+          href="javascript:void(0)"
+          (click)="changePage(page)"
+          [class.list-articles-page__pagination-number--active]="
+            currentPage === page
+          "
+          class="list-articles-page__pagination-number"
+        >
+          {{ page + 1 }}
+        </a>
+      </span>
+
+      <a
+        href="javascript:void(0)"
+        (click)="changePage(currentPage + 1)"
+        [class.table__pagination-arrow--disabled]="
+          currentPage === this.articlesShoppingCart.articles.totalPages - 1
+        "
+        class="list-articles-page__pagination-arrow"
+      >
+        &gt;
+      </a>
+    </div>
+  </div>
 </div>
+
+<app-notification
+  *ngIf="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+>
+</app-notification>

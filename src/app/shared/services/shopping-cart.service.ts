@@ -37,10 +37,15 @@ export class ShoppingCartService {
             hasNextPage: false,
             hasPreviousPage: false
           },
-          totalPrice: 0
+          totalPrice: 0,
+          modificationDate: null
         };
         return of(emptyResponse);
       })
     );
+  }
+
+  deleteArticleFromShoppingCart(idArticle: number): Observable<void>{
+    return this.http.delete<void>(`${API_URL_SHOPPING_CART}/${idArticle}`);
   }
 }

@@ -7,5 +7,6 @@ export interface ItemToAddShoppingCart{
 }
 export interface ArticlesShoppinCart{
     articles: PaginationInfo<ArticleShoppingCart>,
-    totalPrice: number
+    totalPrice: number,
+    modificationDate: Date | null
 }

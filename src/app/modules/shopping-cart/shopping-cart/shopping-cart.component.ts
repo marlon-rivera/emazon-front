@@ -8,8 +8,11 @@ import { ShoppingCartService } from "@/app/shared/services/shopping-cart.service
 import {
   ASC_ORDER,
   DESC_ORDER,
+  EMPTY,
   INITIAL_PAGE,
   MAX_VISIBLE_PAGES,
+  NOTIFICATION_TYPE,
+  NotificationType,
 } from "@/app/shared/utils/api.constants";
 import { Component, OnInit } from "@angular/core";
 
@@ -30,16 +33,20 @@ export class ShoppingCartComponent implements OnInit {
       pageSize: 0,
       totalElements: 0,
     },
+    modificationDate: null,
   };
   categories: Option[] = [];
   brands: Option[] = [];
   maxVisiblePages = MAX_VISIBLE_PAGES;
   currentPage = INITIAL_PAGE;
-  categoriesSelected: number[] = [];
-  brandsSelected: number[] = [];
+  categoriesSelected: Option[] = [];
+  brandsSelected: Option[] = [];
   isCategoriesVisible = false;
   isBrandsVisible = false;
   order: "Ascendentemente" | "Descendentemente" = "Ascendentemente";
+  showNotification: boolean = false;
+  notificationMessage: string = EMPTY;
+  notificationType: NotificationType = NOTIFICATION_TYPE.SUCCESS;
 
   constructor(
     readonly shoppingCartService: ShoppingCartService,
@@ -70,8 +77,8 @@ export class ShoppingCartComponent implements OnInit {
         this.currentPage,
         4,
         orderName,
-        this.categoriesSelected,
-        this.brandsSelected
+        this.categoriesSelected.flatMap((c) => c.id),
+        this.brandsSelected.flatMap((b) => b.id)
       )
       .subscribe((response) => {
         this.articlesShoppingCart = response;
@@ -79,25 +86,59 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   onCategorySelected(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.categoriesSelected.push(Number(checkbox.value));
-    } else {
-      this.categoriesSelected = this.categoriesSelected.filter(
-        (c) => c !== Number(checkbox.value)
-      );
+    const button = event.target as HTMLButtonElement;
+    const id = button.getAttribute("data-id");
+    const name = button.getAttribute("data-name");
+    if (id && name) {
+      const checkbox = document.getElementById("C" + id) as HTMLInputElement;
+
+      if (checkbox.checked) {
+        const alreadySelected = this.categoriesSelected.find(
+          (category) => category.id === Number(id)
+        );
+
+        if (!alreadySelected) {
+          this.categoriesSelected.push({ id: Number(id), name: name });
+        } else {
+          checkbox.checked = false;
+          this.categoriesSelected = this.categoriesSelected.filter(
+            (category) => category.id !== Number(id)
+          );
+        }
+      }else{
+        this.categoriesSelected = this.categoriesSelected.filter(
+          (category) => category.id !== Number(id)
+        );
+      }
     }
     this.getArticlesFromShoppingCart();
   }
 
   onBrandSelected(event: Event): void {
-    const checkbox = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.brandsSelected.push(Number(checkbox.value));
-    } else {
-      this.brandsSelected = this.brandsSelected.filter(
-        (b) => b !== Number(checkbox.value)
-      );
+    const button = event.target as HTMLButtonElement;
+    const id = button.getAttribute("data-id");
+    const name = button.getAttribute("data-name");
+    if (id && name) {
+      const checkbox = document.getElementById("B" + id) as HTMLInputElement;
+
+      if (checkbox.checked) {
+        const alreadySelected = this.brandsSelected.find(
+          (brand) => brand.id === Number(id)
+        );
+
+        if (!alreadySelected) {
+          this.brandsSelected.push({ id: Number(id), name: name });
+        } else {
+          checkbox.checked = false;
+          this.brandsSelected = this.brandsSelected.filter(
+            (brand) => brand.id !== Number(id)
+          );
+        }
+      }else{
+        this.brandsSelected = this.brandsSelected.filter(
+          (brand) => brand.id !== Number(id)
+        );
+      }
     }
     this.getArticlesFromShoppingCart();
   }
@@ -144,6 +185,27 @@ export class ShoppingCartComponent implements OnInit {
         });
     }
   }
+
+  deleteArticle(idArticle: number): void {
+    this.shoppingCartService
+      .deleteArticleFromShoppingCart(idArticle)
+      .subscribe({
+        next: () => {
+          this.notificationMessage = "Borrado exitosamente.";
+          this.notificationType = NOTIFICATION_TYPE.SUCCESS;
+          this.showNotification = true;
+          this.autoHideNotification();
+          this.getArticlesFromShoppingCart();
+        },
+        error: (err) => {
+          this.notificationMessage = "Borrado exitosamente.";
+          this.notificationType = NOTIFICATION_TYPE.SUCCESS;
+          this.showNotification = true;
+          this.autoHideNotification();
+        },
+      });
+  }
+
   toggleCategories(): void {
     this.isCategoriesVisible = !this.isCategoriesVisible;
   }
@@ -238,5 +300,11 @@ export class ShoppingCartComponent implements OnInit {
     }
 
     return visiblePages;
+  }
+
+  private autoHideNotification() {
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
   }
 }

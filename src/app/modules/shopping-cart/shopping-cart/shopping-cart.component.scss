@@ -5,59 +5,62 @@
   gap: 1rem;
   width: 50vw;
   align-items: center;
-  justify-content: center;
+  overflow-y: auto;
+  max-height: 450px;
   @media (max-width: $phone) {
     justify-content: flex-start;
     align-items: start;
+    max-height: auto;
+    width: 90vw;
+    overflow-y: auto;
   }
   
 
   &__item {
     display: flex;
-    align-items: center;
-    padding: 1rem;
+    flex-direction: column;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-    width: 25vw;
-    justify-content: left;
-    gap: 10px;
-    
+    width: 20vw; 
+    padding: 10px;
     
     @media (max-width: $phone) {
       width: 80vw;
     }
 
     &-info {
-      flex: 1;
+      
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+    
     }
 
     &-name {
-      font-size: 1.2rem;
+    
       font-weight: bold;
       margin: 0;
     }
 
     &-category {
-      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
       color: #777;
       margin: 0;
     }
 
     &-controls {
       display: flex;
-      align-items: center;
-      gap: 1rem;
+      justify-content: center;
     }
 
     &-quantity {
       display: flex;
       align-items: center;
-      width: 40vw;
+      
       gap: 0.5rem;
+      
+      justify-content: center;
     }
   }
 
@@ -186,8 +189,15 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-height: 500px;
-    overflow-y: auto;
+    height: 300px;
+    margin-bottom: 10px;
+
+    &--selected{
+      
+      height: 50px;
+      margin: 10px;
+      overflow-y: auto;
+    }
 
     &--visible {
       display: block;
@@ -214,6 +224,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: auto;
+    height: 130px;
   }
   &__checkbox-label {
     display: flex;
@@ -229,8 +241,29 @@
 .content {
   display: flex;
   width: 90vw;
-  justify-content: space-around;
+  justify-content: space-between;
   @media (max-width: $phone) {
    flex-direction: column;
   }
+}
+.remove-btn {
+  background-color: $error;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: darken($error, 10%);
+  }
+}
+
+.warning {
+  color: $error;
+  margin-top: 10px;
 }

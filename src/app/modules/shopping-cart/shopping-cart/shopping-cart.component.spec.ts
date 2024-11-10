@@ -1,333 +1,479 @@
-import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { of, throwError } from "rxjs";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ShoppingCartComponent } from "./shopping-cart.component";
 import { ShoppingCartService } from "@/app/shared/services/shopping-cart.service";
 import { CategoryService } from "@/app/shared/services/category.service";
 import { BrandService } from "@/app/shared/services/brand.service";
+import { of, throwError } from "rxjs";
+import {
+  ASC_ORDER,
+  DESC_ORDER,
+  NOTIFICATION_TYPE,
+} from "@/app/shared/utils/api.constants";
+import { UiModule } from "@/app/ui/ui.module";
+
+jest.mock("@/app/shared/services/shopping-cart.service");
+jest.mock("@/app/shared/services/category.service");
+jest.mock("@/app/shared/services/brand.service");
 
 describe("ShoppingCartComponent", () => {
   let component: ShoppingCartComponent;
-  let fixture: ComponentFixture<ShoppingCartComponent>;
+  let shoppingCartService: jest.Mocked<ShoppingCartService>;
+  let categoryService: jest.Mocked<CategoryService>;
+  let brandService: jest.Mocked<BrandService>;
 
-  let mockShoppingCartService = {
-    getArticlesFromShoppingCart: jest.fn().mockReturnValue(
-      of({
-        totalPrice: 100,
-        articles: {
-          list: [{ id: 1, quantity: 5, quantityRequired: 1 }],
-          totalPages: 3,
-          currentPage: 0,
-          hasNextPage: true,
-          hasPreviousPage: false,
-          pageSize: 4,
-          totalElements: 12,
+  const mockArticlesResponse = {
+    totalPrice: 100,
+    articles: {
+      list: [
+        {
+          id: 1,
+          name: "Article 1",
+          quantity: 10,
+          quantityRequired: 2,
+          description: "",
+          price: 10,
+          categories: [{ id: 1, name: "", description: "" }],
+          brand: { id: 1, name: "", description: "" },
+          deliveryDate: new Date(),
         },
-      })
-    ),
-    addToShoppingCart: jest.fn().mockReturnValue(of({})),
-  };
-
-  let mockCategoryService = {
-    getAllCategories: jest.fn().mockReturnValue(
-      of([
-        { id: 1, name: "Category 1" },
-        { id: 2, name: "Category 2" },
-      ])
-    ),
-  };
-
-  let mockBrandService = {
-    getAllBrands: jest.fn().mockReturnValue(
-      of([
-        { id: 1, name: "Brand 1" },
-        { id: 2, name: "Brand 2" },
-      ])
-    ),
-  };
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ShoppingCartComponent],
-      providers: [
-        { provide: ShoppingCartService, useValue: mockShoppingCartService },
-        { provide: CategoryService, useValue: mockCategoryService },
-        { provide: BrandService, useValue: mockBrandService },
+        {
+          id: 2,
+          name: "Article 2",
+          quantity: 5,
+          quantityRequired: 1,
+          description: "",
+          price: 10,
+          categories: [{ id: 1, name: "", description: "" }],
+          brand: { id: 1, name: "", description: "" },
+          deliveryDate: new Date(),
+        },
       ],
-    }).compileComponents();
+      totalPages: 3,
+      currentPage: 0,
+      hasNextPage: true,
+      hasPreviousPage: false,
+      pageSize: 4,
+      totalElements: 10,
+    },
+    modificationDate: new Date(),
+  };
 
-    fixture = TestBed.createComponent(ShoppingCartComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  const mockCategories = [
+    { id: 1, name: "Category 1", description: "" },
+    { id: 2, name: "Category 2", description: "" },
+  ];
+
+  const mockBrands = [
+    { id: 1, name: "Brand 1", description: "" },
+    { id: 2, name: "Brand 2", description: "" },
+  ];
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ShoppingCartComponent],
+      imports: [UiModule],
+      providers: [ShoppingCartService, CategoryService, BrandService],
+    });
+
+    shoppingCartService = TestBed.inject(
+      ShoppingCartService
+    ) as jest.Mocked<ShoppingCartService>;
+    categoryService = TestBed.inject(
+      CategoryService
+    ) as jest.Mocked<CategoryService>;
+    brandService = TestBed.inject(BrandService) as jest.Mocked<BrandService>;
+
+    shoppingCartService.getArticlesFromShoppingCart.mockReturnValue(
+      of(mockArticlesResponse)
+    );
+    shoppingCartService.addToShoppingCart.mockReturnValue(of());
+    categoryService.getAllCategories.mockReturnValue(of(mockCategories));
+    brandService.getAllBrands.mockReturnValue(of(mockBrands));
+
+    component = TestBed.createComponent(
+      ShoppingCartComponent
+    ).componentInstance;
   });
 
-  it("should create component", () => {
-    expect(component).toBeTruthy();
-  });
+  describe("initialization", () => {
+    test("should initialize with default values", () => {
+      expect(component.currentPage).toBe(0);
+      expect(component.categoriesSelected).toEqual([]);
+      expect(component.brandsSelected).toEqual([]);
+      expect(component.order).toBe("Ascendentemente");
+    });
 
-  describe("ngOnInit", () => {
-    it("should call getArticlesFromShoppingCart, getAllCategories, and getAllBrands", () => {
-      const getArticlesSpy = jest.spyOn(
-        component,
-        "getArticlesFromShoppingCart"
-      );
+    test("should load initial data on ngOnInit", () => {
       component.ngOnInit();
-      expect(getArticlesSpy).toHaveBeenCalled();
-      expect(mockCategoryService.getAllCategories).toHaveBeenCalled();
-      expect(mockBrandService.getAllBrands).toHaveBeenCalled();
+
+      expect(
+        shoppingCartService.getArticlesFromShoppingCart
+      ).toHaveBeenCalled();
+      expect(categoryService.getAllCategories).toHaveBeenCalled();
+      expect(brandService.getAllBrands).toHaveBeenCalled();
     });
   });
 
   describe("getArticlesFromShoppingCart", () => {
-    it("should fetch articles with correct params", () => {
+    test("should fetch articles with ascending order", () => {
+      component.order = "Ascendentemente";
       component.getArticlesFromShoppingCart();
+
       expect(
-        mockShoppingCartService.getArticlesFromShoppingCart
-      ).toHaveBeenCalledWith(
-        component.currentPage,
-        4,
-        "ASC",
-        component.categoriesSelected,
-        component.brandsSelected
+        shoppingCartService.getArticlesFromShoppingCart
+      ).toHaveBeenCalledWith(0, 4, ASC_ORDER, [], []);
+    });
+
+    test("should fetch articles with descending order", () => {
+      component.order = "Descendentemente";
+      component.getArticlesFromShoppingCart();
+
+      expect(
+        shoppingCartService.getArticlesFromShoppingCart
+      ).toHaveBeenCalledWith(0, 4, DESC_ORDER, [], []);
+    });
+  });
+
+  describe("category selection", () => {
+    test("should add category when selected", () => {
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Category 1",
+        },
+      } as unknown as Event;
+
+      document.body.innerHTML = `<input id="C1" type="checkbox" checked>`;
+      component.categoriesSelected = [{ id: 2, name: "Category 2" }];      
+      component.onCategorySelected(mockEvent);
+      expect(component.categoriesSelected).toEqual([
+        { id: 2, name: "Category 2" },
+        { id: 1, name: "Category 1" },
+      ]);
+    });
+
+    test("should add category when not selected", () => {
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Category 1",
+        },
+      } as unknown as Event;
+
+      document.body.innerHTML = `<input id="C1" type="checkbox" checked>`;
+      component.onCategorySelected(mockEvent);
+
+      expect(component.categoriesSelected).toEqual([
+        { id: 1, name: "Category 1" },
+      ]);
+    });
+
+    test("should remove category when unchecked", () => {
+      component.categoriesSelected = [{ id: 1, name: "Category 1" }];
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Category 1",
+        },
+      } as unknown as Event;
+
+      document.body.innerHTML = `<input id="C1" type="checkbox">`;
+
+      component.onCategorySelected(mockEvent);
+
+      expect(component.categoriesSelected).toEqual([]);
+    });
+  });
+
+  describe("brand selection", () => {
+    test("should add brand when selected", () => {
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Brand 1",
+        },
+      } as unknown as Event;
+      component.brandsSelected = [{ id: 2, name: "Brand 2" }];
+      document.body.innerHTML = `<input id="B1" type="checkbox" checked>`;
+
+      component.onBrandSelected(mockEvent);
+
+      expect(component.brandsSelected).toEqual([
+        { id: 2, name: "Brand 2" },
+        { id: 1, name: "Brand 1" },
+      ]);
+    });
+
+    test("should add brand when not selected", () => {
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Brand 1",
+        },
+      } as unknown as Event;
+      component.brandsSelected = [];
+      document.body.innerHTML = `<input id="B1" type="checkbox" checked>`;
+
+      component.onBrandSelected(mockEvent);
+
+      expect(component.brandsSelected).toEqual([{ id: 1, name: "Brand 1" }]);
+    });
+
+    test("should remove brand when unchecked", () => {
+      component.brandsSelected = [{ id: 1, name: "Brand 1" }];
+      const mockEvent = {
+        target: {
+          getAttribute: (attr: string) =>
+            attr === "data-id" ? "1" : "Brand 1",
+        },
+      } as unknown as Event;
+
+      document.body.innerHTML = `<input id="B1" type="checkbox">`;
+
+      component.onBrandSelected(mockEvent);
+
+      expect(component.brandsSelected).toEqual([]);
+    });
+  });
+
+  describe("order handling", () => {
+    test("should toggle order from ascending to descending", () => {
+      component.order = "Ascendentemente";
+      component.changeOrder();
+      expect(component.order).toBe("Descendentemente");
+    });
+
+    test("should toggle order from descending to ascending", () => {
+      component.order = "Descendentemente";
+      component.changeOrder();
+      expect(component.order).toBe("Ascendentemente");
+    });
+  });
+
+  describe("quantity management", () => {
+    test("should handle quantity change within valid range", () => {
+      const article = mockArticlesResponse.articles.list[0];
+      component.articlesShoppingCart = mockArticlesResponse;
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      component.quantityChange(1, "3");
+      expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
+        idArticle: 1,
+        quantity: 3,
+      });
+    });
+
+    test("should set quantity to 1 when input is less than 1", () => {
+      const article = mockArticlesResponse.articles.list[0];
+      component.articlesShoppingCart = mockArticlesResponse;
+
+      component.quantityChange(article.id, "0");
+
+      expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
+        idArticle: article.id,
+        quantity: 1,
+      });
+    });
+
+    test("should limit quantity to available stock", () => {
+      const article = mockArticlesResponse.articles.list[0];
+      component.articlesShoppingCart = mockArticlesResponse;
+
+      component.quantityChange(article.id, "15");
+
+      expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
+        idArticle: article.id,
+        quantity: article.quantity,
+      });
+    });
+  });
+
+  describe("article deletion", () => {
+    test("should delete article successfully", () => {
+      (
+        shoppingCartService.deleteArticleFromShoppingCart as jest.Mock
+      ).mockReturnValue(of({}));
+      jest.useFakeTimers();
+
+      component.deleteArticle(1);
+      expect(
+        shoppingCartService.deleteArticleFromShoppingCart
+      ).toHaveBeenCalledWith(1);
+      expect(component.showNotification).toBe(true);
+      expect(component.notificationType).toBe(NOTIFICATION_TYPE.SUCCESS);
+
+      jest.advanceTimersByTime(3000);
+      expect(component.showNotification).toBe(false);
+    });
+
+    test("should handle delete article error", () => {
+      jest.useFakeTimers();
+      shoppingCartService.deleteArticleFromShoppingCart.mockReturnValue(
+        throwError(() => new Error())
+      );
+
+      component.deleteArticle(1);
+
+      expect(component.showNotification).toBe(true);
+      expect(component.notificationType).toBe(NOTIFICATION_TYPE.SUCCESS);
+
+      jest.advanceTimersByTime(3000);
+      expect(component.showNotification).toBe(false);
+    });
+  });
+
+  describe("pagination", () => {
+    test("should change page within valid range", () => {
+      component.articlesShoppingCart = mockArticlesResponse;
+      component.changePage(1);
+
+      expect(component.currentPage).toBe(1);
+      expect(
+        shoppingCartService.getArticlesFromShoppingCart
+      ).toHaveBeenCalled();
+    });
+
+    test("should not change page outside valid range", () => {
+      component.articlesShoppingCart = mockArticlesResponse;
+      const initialPage = component.currentPage;
+
+      component.changePage(-1);
+      expect(component.currentPage).toBe(initialPage);
+
+      component.changePage(mockArticlesResponse.articles.totalPages);
+      expect(component.currentPage).toBe(initialPage);
+    });
+
+    test("should calculate visible pages correctly", () => {
+      component.articlesShoppingCart = mockArticlesResponse;
+      component.currentPage = 1;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toContain(component.currentPage);
+      expect(visiblePages.length).toBeLessThanOrEqual(
+        component.maxVisiblePages
       );
     });
 
-    it("should handle API response correctly", () => {
-      component.getArticlesFromShoppingCart();
-      expect(component.articlesShoppingCart.totalPrice).toBe(100);
-      expect(
-        component.articlesShoppingCart.articles.list.length
-      ).toBeGreaterThan(0);
-    });
-  });
-
-  describe("onCategorySelected", () => {
-    it("should add category to categoriesSelected on checkbox check", () => {
-      const event = {
-        target: { checked: true, value: "1" },
-      } as unknown as Event;
-      component.onCategorySelected(event);
-      expect(component.categoriesSelected).toContain(1);
-    });
-
-    it("should remove category from categoriesSelected on checkbox uncheck", () => {
-      component.categoriesSelected = [1];
-      const event = {
-        target: { checked: false, value: "1" },
-      } as unknown as Event;
-      component.onCategorySelected(event);
-      expect(component.categoriesSelected).not.toContain(1);
-    });
-  });
-
-  describe("onBrandSelected", () => {
-    it("should add brand to brandsSelected on checkbox check", () => {
-      const event = {
-        target: { checked: true, value: "1" },
-      } as unknown as Event;
-      component.onBrandSelected(event);
-      expect(component.brandsSelected).toContain(1);
-    });
-
-    it("should remove brand from brandsSelected on checkbox uncheck", () => {
-      component.brandsSelected = [1];
-      const event = {
-        target: { checked: false, value: "1" },
-      } as unknown as Event;
-      component.onBrandSelected(event);
-      expect(component.brandsSelected).not.toContain(1);
-    });
-  });
-
-  describe("changeOrder", () => {
-    it("should toggle order and call getArticlesFromShoppingCart ASC to DESC", () => {
-      const spy = jest.spyOn(component, "getArticlesFromShoppingCart");
-      component.changeOrder();
-      expect(component.order).toBe("Descendentemente");
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it("should toggle order and call getArticlesFromShoppingCart DESC to ASC", () => {
-      const spy = jest.spyOn(component, "getArticlesFromShoppingCart");
-      component.order = "Descendentemente"
-      component.changeOrder();
-      expect(component.order).toBe("Ascendentemente");
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
-  describe("quantityChange", () => {
-    it("should update quantityRequired within limits", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 1,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      component.quantityChange(1, "3");
-      expect(
-        component.articlesShoppingCart.articles.list[0].quantityRequired
-      ).toBe(3);
-    });
-
-    it("should update quantityRequired within limits", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 1,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      component.quantityChange(1, "0");
-      expect(
-        component.articlesShoppingCart.articles.list[0].quantityRequired
-      ).toBe(1);
-    });
-    
-    it("should update quantityRequired within limits maximum", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 1,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      component.quantityChange(1, "6");
-      expect(
-        component.articlesShoppingCart.articles.list[0].quantityRequired
-      ).toBe(5);
-    });
-
-    it("should call addToShoppingCart with new quantity", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 1,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      const spy = jest.spyOn(mockShoppingCartService, "addToShoppingCart");
-      component.quantityChange(1, "3");
-      expect(spy).toHaveBeenCalledWith({ idArticle: 1, quantity: 3 });
-    });
-  });
-
-  describe("toggleCategories", () => {
-    it("should toggle isCategoriesVisible", () => {
-      expect(component.isCategoriesVisible).toBe(false);
-      component.toggleCategories();
-      expect(component.isCategoriesVisible).toBe(true);
-    });
-  });
-
-  describe("toggleBrands", () => {
-    it("should toggle isBrandsVisible", () => {
-      expect(component.isBrandsVisible).toBe(false);
-      component.toggleBrands();
-      expect(component.isBrandsVisible).toBe(true);
-    });
-  });
-
-  describe("changePage", () => {
-    it("should update currentPage and call getArticlesFromShoppingCart", () => {
-      const spy = jest.spyOn(component, "getArticlesFromShoppingCart");
-      component.changePage(2);
-      expect(component.currentPage).toBe(2);
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
-  describe("increaseQuantity", () => {
-    it("should increase quantityRequired and call addToShoppingCart", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 1,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      const spy = jest.spyOn(mockShoppingCartService, "addToShoppingCart");
-      component.increaseQuantity(1);
-      expect(
-        component.articlesShoppingCart.articles.list[0].quantityRequired
-      ).toBe(2);
-      expect(spy).toHaveBeenCalledWith({ idArticle: 1, quantity: 2 });
-    });
-  });
-
-  describe("decreaseQuantity", () => {
-    it("should decrease quantityRequired and call addToShoppingCart", () => {
-      component.articlesShoppingCart.articles.list = [
-        {
-          id: 1,
-          quantity: 5,
-          quantityRequired: 2,
-          name: "test",
-          description: "test",
-          price: 10,
-          brand: { id: 1, name: "test", description: "test" },
-          categories: [],
-          deliveryDate: new Date(),
-        },
-      ];
-      const spy = jest.spyOn(mockShoppingCartService, "addToShoppingCart");
-      component.decreaseQuantity(1);
-      expect(
-        component.articlesShoppingCart.articles.list[0].quantityRequired
-      ).toBe(1);
-      expect(spy).toHaveBeenCalledWith({ idArticle: 1, quantity: 1 });
-    });
-  });
-
-  describe("getVisiblePages", () => {
-    it("should return correct page indices", () => {
+    it("should handle case when we have exactly maxVisiblePages number of pages", () => {
       component.articlesShoppingCart.articles.totalPages = 5;
       component.currentPage = 2;
-      const pages = component.getVisiblePages();
-      expect(pages).toEqual([0, 1, 2, 3, 4]);
-    });
-    it("should return correct page indices", () => {
-      component.articlesShoppingCart.articles.totalPages = 10;
-      component.currentPage = 1;
-      const pages = component.getVisiblePages();
-      expect(pages).toEqual([0, 1, 2, 3, 4, -1, 9]);
-    });
-    it("should return correct page indices", () => {
-      component.articlesShoppingCart.articles.totalPages = 10;
-      component.currentPage = 10;
-      const pages = component.getVisiblePages();
-      expect(pages).toEqual([0, -1, 5, 6, 7, 8, 9]);
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0, 1, 2, 3, 4]);
     });
 
+    it("should handle case when we have fewer than maxVisiblePages pages", () => {
+      component.articlesShoppingCart.articles.totalPages = 3;
+      component.currentPage = 1;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0, 1, 2]);
+    });
+
+    it("should handle case when currentPage is in the middle", () => {
+      component.articlesShoppingCart.articles.totalPages = 10;
+      component.currentPage = 4;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0, -1, 2, 3, 4, 5, 6, -1, 9]);
+    });
+
+    it("should handle edge case with minimal number of pages", () => {
+      component.articlesShoppingCart.articles.totalPages = 1;
+      component.currentPage = 0;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0]);
+    });
+
+    it("should handle case when currentPage is less than or equal to halfWindow", () => {
+      component.articlesShoppingCart.articles.totalPages = 10;
+      component.currentPage = 1;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0, 1, 2, 3, 4, -1, 9]);
+    });
+
+    it("should handle case when currentPage is near the end", () => {
+      component.articlesShoppingCart.articles.totalPages = 10;
+      component.currentPage = 8;
+
+      const visiblePages = component.getVisiblePages();
+
+      expect(visiblePages).toEqual([0, -1, 5, 6, 7, 8, 9]);
+    });
+  });
+
+  describe("quantity controls", () => {
+    test("should increase quantity", () => {
+      component.articlesShoppingCart = mockArticlesResponse;
+      const article = mockArticlesResponse.articles.list[0];
+      const initialQuantity = article.quantityRequired;
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      component.increaseQuantity(article.id);
+
+      expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
+        idArticle: article.id,
+        quantity: initialQuantity + 1,
+      });
+    });
+
+    test("should decrease quantity if greater than 1", () => {
+      component.articlesShoppingCart = mockArticlesResponse;
+      const article = mockArticlesResponse.articles.list[0];
+      const initialQuantity = article.quantityRequired;
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      component.decreaseQuantity(article.id);
+
+      expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
+        idArticle: article.id,
+        quantity: initialQuantity - 1,
+      });
+    });
+
+    test("should not decrease quantity if at minimum", () => {
+      component.articlesShoppingCart = {
+        ...mockArticlesResponse,
+        articles: {
+          ...mockArticlesResponse.articles,
+          list: [
+            { ...mockArticlesResponse.articles.list[0], quantityRequired: 1 },
+          ],
+        },
+      };
+      const article = component.articlesShoppingCart.articles.list[0];
+
+      component.decreaseQuantity(article.id);
+
+      expect(shoppingCartService.addToShoppingCart).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("visibility toggles", () => {
+    test("should toggle categories visibility", () => {
+      const initialState = component.isCategoriesVisible;
+      component.toggleCategories();
+      expect(component.isCategoriesVisible).toBe(!initialState);
+    });
+
+    test("should toggle brands visibility", () => {
+      const initialState = component.isBrandsVisible;
+      component.toggleBrands();
+      expect(component.isBrandsVisible).toBe(!initialState);
+    });
+  });
+
+  describe("to String number", () => {
+    test("Convert number to string", () => {
+      const number = component.toString(1);
+      console.log(number);
+      expect(number).toBe("1");
+    });
   });
 });
