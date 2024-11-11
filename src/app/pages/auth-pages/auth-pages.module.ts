@@ -11,7 +11,6 @@ import { ClientModule } from '@/app/modules/client/client.module';
   imports: [
     CommonModule,
     LoginModule,
-    ClientModule,
     AuthPagesRoutingModule
   ]
 })

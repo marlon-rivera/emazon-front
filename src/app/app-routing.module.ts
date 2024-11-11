@@ -4,6 +4,7 @@ import { LayoutComponent } from "./ui/templates/layout/layout.component";
 import { TYPE_USER_WAREHOUSE_ASSISTANT } from "./shared/utils/api.constants";
 import { AuthGuard } from "./shared/auth/guards/auth.guard";
 import { AdminGuard } from "./shared/auth/guards/admin.guard";
+import { LoggedInGuard } from "./shared/auth/guards/logged-in.guard";
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
           import("src/app/pages/auth-pages/auth-pages.module").then(
             (m) => m.AuthPagesModule
           ),
+        canActivate: [LoggedInGuard],
       },
       {
         path: "control-panel",
@@ -70,7 +72,7 @@ const routes: Routes = [
           import(
             "src/app/pages/shopping-cart-pages/shopping-cart-pages.module"
           ).then((m) => m.ShoppingCartPagesModule),
-          canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
     ],
   },

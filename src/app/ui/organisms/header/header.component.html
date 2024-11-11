@@ -13,7 +13,9 @@
         Ingresar
       </a>
       /
-      <a class="header__login__signup" routerLink="/auth/register"> Registrarse </a>
+      <a class="header__login__signup" routerLink="/auth/register">
+        Registrarse
+      </a>
     </div>
     <div class="header__login" *ngIf="isLogged">
       <img
@@ -46,6 +48,36 @@
           </g>
         </svg>
       </button>
+    </div>
+    <button class="header__menu-button" (click)="toggleMenu()" aria-label="Toggle menu" *ngIf="isLogged">
+      ☰
+    </button>
+  </div>
+  <nav class="header__navbar" *ngIf="isLogged">
+    <ul class="header__navbar--items">
+      <li class="header__navbar--item" *ngFor="let item of menuItems">
+        <button class="header__navbar--item__button" (click)="navigate(item.route)">
+          {{ item.name }}
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <div class="header__mobile-menu"   [ngClass]="{'is-open': isMenuOpen}"
+  *ngIf="isMenuOpen" (click)="closeMenuOutside($event)">
+    <div class="header__mobile-menu-content">
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <button (click)="navigate(item.route)">
+            {{ item.name }}
+          </button>
+          
+        </li>
+        <li>
+          <button (click)="logout()">
+            Cerrar sesión
+          </button>
+        </li>
+      </ul>
     </div>
   </div>
 </header>

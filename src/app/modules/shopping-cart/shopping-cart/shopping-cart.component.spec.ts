@@ -472,7 +472,6 @@ describe("ShoppingCartComponent", () => {
   describe("to String number", () => {
     test("Convert number to string", () => {
       const number = component.toString(1);
-      console.log(number);
       expect(number).toBe("1");
     });
   });
