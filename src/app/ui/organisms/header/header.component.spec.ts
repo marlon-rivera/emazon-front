@@ -4,6 +4,9 @@ import { AuthService } from '@/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ADMIN_ROLE, CLIENT_ROLE, WAREHOUSE_ROLE } from '@/app/shared/utils/api.constants';
+import { UiModule } from '../../ui.module';
+import { MoleculesModule } from '../../molecules/molecules.module';
+import { AtomsModule } from '../../atoms/atoms.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -22,6 +25,7 @@ describe('HeaderComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
+      imports: [MoleculesModule, AtomsModule],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: Router, useValue: routerMock }

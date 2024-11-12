@@ -5,7 +5,7 @@ import {
   tick,
 } from "@angular/core/testing";
 import { LoginComponent } from "./login.component";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { AuthService } from "@/app/shared/services/auth.service";
 import { Router } from "@angular/router";
 import { of, throwError } from "rxjs";
@@ -15,6 +15,7 @@ import {
   CLIENT_ROLE,
   NOTIFICATION_TYPE,
 } from "@/app/shared/utils/api.constants";
+import { UiModule } from "@/app/ui/ui.module";
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -34,6 +35,7 @@ describe("LoginComponent", () => {
 
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
+      imports: [UiModule, ReactiveFormsModule],
       providers: [
         FormBuilder,
         { provide: AuthService, useValue: authServiceMock },

@@ -15,6 +15,7 @@ import {
   SIZE_PAGE,
 } from "@/app/shared/utils/api.constants";
 import { HttpClientModule } from "@angular/common/http";
+import { UiModule } from "@/app/ui/ui.module";
 
 describe("BrandsPanelPageComponent", () => {
   let component: BrandsPanelPageComponent;
@@ -28,7 +29,7 @@ describe("BrandsPanelPageComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [BrandsPanelPageComponent],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, UiModule],
       providers: [{ provide: BrandService, useValue: brandService }],
     }).compileComponents();
 

@@ -12,12 +12,7 @@
   ></app-button>
   <div>
     <app-button [buttonText]="order" (buttonClick)="changeOrder()"></app-button>
-    <p
-      class="cart__item-category"
-      *ngIf="articlesShoppingCart.modificationDate"
-    >
-      Ultima fecha de modificación: {{ articlesShoppingCart.modificationDate }}
-    </p>
+    
     <aside
       class="list-articles-page__categories"
       [ngClass]="{
@@ -117,8 +112,6 @@
     </aside>
   </div>
   <div class="cart">
-    
-    
     <div
       *ngFor="let article of articlesShoppingCart.articles.list"
       class="cart__item"
@@ -137,12 +130,13 @@
           </p>
           <p class="cart__item-category">Marca: {{ article.brand.name }}</p>
           <p class="cart__item-category">
-            Categorías:
+            Categorías: 
             <span *ngFor="let category of article.categories"
-              >{{ category.name }}
+              > ‎ {{ category.name }} ‎
             </span>
           </p>
           <p class="cart__item-category">Precio: {{ article.price }}</p>
+          <p class="cart__item-category">Subtotal: <span class="highlight"> ‎ {{ article.price * article.quantityRequired | currency : "USD" : "symbol" : "1.2-2" }} </span></p>
         </div>
         <div class="cart__item-controls">
           <div class="cart__item-quantity">
@@ -167,12 +161,7 @@
         (buttonClick)="deleteArticle(article.id)"
       ></app-button>
     </div>
-    <p>
-      <span class="highlight"> Total:</span>
-      {{
-        articlesShoppingCart.totalPrice | currency : "USD" : "symbol" : "1.2-2"
-      }}
-    </p>
+    
     <div
       class="list-articles-page__pagination"
       *ngIf="this.articlesShoppingCart.articles.totalPages > 1"
@@ -216,6 +205,22 @@
         &gt;
       </a>
     </div>
+  </div>
+  <div class="information">
+    <p
+      class="cart__item-category"
+      *ngIf="articlesShoppingCart.modificationDate"
+    >
+      Ultima fecha de modificación: {{ articlesShoppingCart.modificationDate }}
+    </p>
+    
+    <p>
+      <span class="highlight"> Total:</span>
+      {{
+        articlesShoppingCart.totalPrice | currency : "USD" : "symbol" : "1.2-2"
+      }}
+    </p>
+    <app-button buttonText="Comprar" (buttonClick)="purchase()" [disabledButton]="this.articlesShoppingCart.articles.list.length === 0"></app-button>
   </div>
 </div>
 

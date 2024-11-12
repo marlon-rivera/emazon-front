@@ -105,7 +105,7 @@ export class ShoppingCartComponent implements OnInit {
             (category) => category.id !== Number(id)
           );
         }
-      }else{
+      } else {
         this.categoriesSelected = this.categoriesSelected.filter(
           (category) => category.id !== Number(id)
         );
@@ -134,7 +134,7 @@ export class ShoppingCartComponent implements OnInit {
             (brand) => brand.id !== Number(id)
           );
         }
-      }else{
+      } else {
         this.brandsSelected = this.brandsSelected.filter(
           (brand) => brand.id !== Number(id)
         );
@@ -306,5 +306,26 @@ export class ShoppingCartComponent implements OnInit {
     setTimeout(() => {
       this.showNotification = false;
     }, 3000);
+  }
+
+  purchase(): void {
+    this.shoppingCartService.makePurchase().subscribe({
+      next: () => {
+        this.notificationMessage =
+          "Compra hecha correctamente, gracias por comprar.";
+        this.notificationType = NOTIFICATION_TYPE.SUCCESS;
+        this.showNotification = true;
+        this.getArticlesFromShoppingCart();
+        this.autoHideNotification();
+      },
+      error: (err) => {
+        this.notificationMessage = err.error.message;
+        this.notificationType = NOTIFICATION_TYPE.ERROR;
+        this.showNotification = true;
+        this.getArticlesFromShoppingCart();
+        this.autoHideNotification();
+        
+      },
+    });
   }
 }

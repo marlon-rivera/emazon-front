@@ -12,6 +12,7 @@ import {
   NOTIFICATION_TYPE,
   TYPE_USER_WAREHOUSE_ASSISTANT,
 } from "@/app/shared/utils/api.constants";
+import { UiModule } from "@/app/ui/ui.module";
 
 describe("CreateUserComponent", () => {
   let component: CreateUserComponent;
@@ -41,7 +42,7 @@ describe("CreateUserComponent", () => {
 
     await TestBed.configureTestingModule({
       declarations: [CreateUserComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, UiModule],
       providers: [FormBuilder, { provide: UserService, useValue: userService }],
     }).compileComponents();
 

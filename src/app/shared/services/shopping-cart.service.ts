@@ -48,4 +48,8 @@ export class ShoppingCartService {
   deleteArticleFromShoppingCart(idArticle: number): Observable<void>{
     return this.http.delete<void>(`${API_URL_SHOPPING_CART}/${idArticle}`);
   }
+
+  makePurchase(): Observable<void>{
+    return this.http.post<void>(`${API_URL_SHOPPING_CART}/purchase`, null);
+  }
 }

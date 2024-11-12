@@ -87,6 +87,7 @@ describe("ShoppingCartComponent", () => {
       of(mockArticlesResponse)
     );
     shoppingCartService.addToShoppingCart.mockReturnValue(of());
+    shoppingCartService.makePurchase.mockReturnValue(of());
     categoryService.getAllCategories.mockReturnValue(of(mockCategories));
     brandService.getAllBrands.mockReturnValue(of(mockBrands));
 
@@ -144,7 +145,7 @@ describe("ShoppingCartComponent", () => {
       } as unknown as Event;
 
       document.body.innerHTML = `<input id="C1" type="checkbox" checked>`;
-      component.categoriesSelected = [{ id: 2, name: "Category 2" }];      
+      component.categoriesSelected = [{ id: 2, name: "Category 2" }];
       component.onCategorySelected(mockEvent);
       expect(component.categoriesSelected).toEqual([
         { id: 2, name: "Category 2" },
@@ -254,7 +255,9 @@ describe("ShoppingCartComponent", () => {
     test("should handle quantity change within valid range", () => {
       const article = mockArticlesResponse.articles.list[0];
       component.articlesShoppingCart = mockArticlesResponse;
-      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(
+        of({})
+      );
       component.quantityChange(1, "3");
       expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
         idArticle: 1,
@@ -415,7 +418,9 @@ describe("ShoppingCartComponent", () => {
       component.articlesShoppingCart = mockArticlesResponse;
       const article = mockArticlesResponse.articles.list[0];
       const initialQuantity = article.quantityRequired;
-      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(
+        of({})
+      );
       component.increaseQuantity(article.id);
 
       expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
@@ -428,7 +433,9 @@ describe("ShoppingCartComponent", () => {
       component.articlesShoppingCart = mockArticlesResponse;
       const article = mockArticlesResponse.articles.list[0];
       const initialQuantity = article.quantityRequired;
-      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(of({}))
+      (shoppingCartService.addToShoppingCart as jest.Mock).mockReturnValue(
+        of({})
+      );
       component.decreaseQuantity(article.id);
 
       expect(shoppingCartService.addToShoppingCart).toHaveBeenCalledWith({
@@ -473,6 +480,40 @@ describe("ShoppingCartComponent", () => {
     test("Convert number to string", () => {
       const number = component.toString(1);
       expect(number).toBe("1");
+    });
+  });
+
+  describe("make purchase", () => {
+    test("Pruchase successfully", () => {
+      jest.useFakeTimers();
+      (shoppingCartService.makePurchase as jest.Mock).mockReturnValue(of({}));
+      component.purchase();
+      expect(component.notificationMessage).toBe(
+        "Compra hecha correctamente, gracias por comprar."
+      );
+      expect(component.showNotification).toBeTruthy();
+      expect(component.notificationType).toBe(NOTIFICATION_TYPE.SUCCESS);
+      jest.advanceTimersByTime(3000);
+      expect(component.showNotification).toBe(false);
+    });
+
+    test("Pruchase failed", () => {
+      jest.useFakeTimers();
+      const errorMessage = "Error en la compra";
+      const error = {
+        error: {
+          message: errorMessage,
+        },
+      };
+      (shoppingCartService.makePurchase as jest.Mock).mockReturnValue(
+        throwError(() => error)
+      );
+      component.purchase();
+      console.log(component);
+      expect(component.showNotification).toBeTruthy();
+      expect(component.notificationType).toBe(NOTIFICATION_TYPE.ERROR);
+      jest.advanceTimersByTime(3000);
+      expect(component.showNotification).toBe(false);
     });
   });
 });
